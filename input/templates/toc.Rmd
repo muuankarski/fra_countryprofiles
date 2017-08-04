@@ -1,0 +1,123 @@
+---
+title: FAO FRA Country Profiles - works in progress
+author: Markus Kainu
+date: "Last updated: **`r Sys.time()`**"
+output: 
+  html_document: 
+    toc: true
+    toc_float: true
+    number_sections: yes
+    code_folding: hide
+    theme: united
+---
+
+
+# Current pdfs for smartphone
+
+
+```{r, include=FALSE, eval = FALSE}
+library(tidyverse)
+library(pdftools)
+root.dir <- "~/faosync/pocketbooks/pocketbook/"
+
+# boooks <- list.files(path = paste0(root.dir,"/output/pdf/"), pattern = ".pdf", full.names = TRUE)
+books <- c("GLO", "RAF", "RAP", "REU", "REU_ru", "RNE","COF")
+pdfinfodata <- data_frame()
+for (book in books){
+  path <- paste0(root.dir,"/output/pdf/syb_main_",book,".pdf")
+  if (!file.exists(path)) next()
+  newline <- as.data.frame(pdf_info(path)[c("modified","pages")])
+  newline$book <- book
+  pdfinfodata <- bind_rows(pdfinfodata,newline)
+}
+```
+
+<!-- | link to pdf | Modified | pages | -->
+<!-- | --- | -------- | ----- | -->
+<!-- | [GLO](pdf/syb_main_GLO.pdf) | ``r pdfinfodata %>% filter(book %in% "GLO") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "GLO") %>% .$pages``| -->
+<!-- | [REU](pdf/syb_main_REU.pdf) | ``r pdfinfodata %>% filter(book %in% "REU") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "REU") %>% .$pages``| -->
+<!-- | [REU_ru](pdf/syb_main_REU_ru.pdf) | ``r pdfinfodata %>% filter(book %in% "REU_ru") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "REU_ru") %>% .$pages``| -->
+<!-- | [RAP](pdf/syb_main_RAP.pdf) | ``r pdfinfodata %>% filter(book %in% "RAP") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "RAP") %>% .$pages``| -->
+<!-- | [RAF](pdf/syb_main_RAF.pdf) | ``r pdfinfodata %>% filter(book %in% "RAF") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "RAF") %>% .$pages``| -->
+<!-- | [RNE](pdf/syb_main_RNE.pdf) | ``r pdfinfodata %>% filter(book %in% "RNE") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "RNE") %>% .$pages``| -->
+<!-- | [Coffee](pdf/syb_main_COF.pdf) | ``r pdfinfodata %>% filter(book %in% "COF") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "COF") %>% .$pages``| -->
+
+# Current pdfs for print (A4)
+
+```{r, include=FALSE, eval = FALSE}
+library(tidyverse)
+library(pdftools)
+root.dir <- "~/faosync/pocketbooks/pocketbook/"
+
+# boooks <- list.files(path = paste0(root.dir,"/output/pdf/"), pattern = ".pdf", full.names = TRUE)
+books <- c("GLO", "RAF", "RAP", "REU", "REU_ru", "RNE","COF")
+pdfinfodata <- data_frame()
+for (book in books){
+  path <- paste0(root.dir,"/output/print/syb_main_",book,".pdf")
+  if (!file.exists(path)) next()
+  newline <- as.data.frame(pdf_info(path)[c("modified","pages")])
+  newline$book <- book
+  pdfinfodata <- bind_rows(pdfinfodata,newline)
+}
+```
+
+
+<!-- | link to pdf | Modified | pages | covers | -->
+<!-- | --- | -------- | ----- | --- | -->
+<!-- | [GLO](print/syb_main_GLO.pdf) | ``r pdfinfodata %>% filter(book %in% "GLO") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "GLO") %>% .$pages``| [print covers](print/GLO_cover.pdf) | -->
+<!-- | [REU](print/syb_main_REU.pdf) | ``r pdfinfodata %>% filter(book %in% "REU") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "REU") %>% .$pages``| [print covers](print/REU_cover.pdf) | -->
+<!-- | [REU_ru](print/syb_main_REU_ru.pdf) | ``r pdfinfodata %>% filter(book %in% "REU_ru") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "REU_ru") %>% .$pages``| [print covers](print/REU_ru_cover.pdf) | -->
+<!-- | [RAP](print/syb_main_RAP.pdf) | ``r pdfinfodata %>% filter(book %in% "RAP") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "RAP") %>% .$pages``| [print covers](print/RAP_cover.pdf) | -->
+<!-- | [RAF](print/syb_main_RAF.pdf) | ``r pdfinfodata %>% filter(book %in% "RAF") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "RAF") %>% .$pages``| [print covers](print/RAF_cover.pdf) | -->
+<!-- | [RNE](print/syb_main_RNE.pdf) | ``r pdfinfodata %>% filter(book %in% "RNE") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "RNE") %>% .$pages``| [print covers](print/RNE_cover.pdf) | -->
+<!-- | [Coffee](print/syb_main_COF.pdf) | ``r pdfinfodata %>% filter(book %in% "COF") %>% .$modified`` | ``r pdfinfodata %>% filter(book %in% "COF") %>% .$pages``| covers | -->
+
+<!-- - [tex-files and everything](pdf/) -->
+
+# Comparison gadgets
+
+<!-- - [Global 2015 vs. Global 2016](pdf/GLO15_GLO.html) -->
+<!-- 1. [RAP 2017 (Asia & Pacific)](pdf/RAP.html) -->
+<!-- 1. [REU 2017 (Europe & Central Asia)](pdf/REU.html) -->
+<!-- 1. [REU ru 2017 (Europe & Central Asia in Russian)](pdf/REU_ru.html) -->
+<!-- 1. [RNE 2017 (Near East & North Africa)](pdf/RNE.html) -->
+<!-- 1. [RAF 2017 (Africa)](pdf/RAF.html) -->
+<!-- <!-- - [All regional books](pdf/regional_books16.html) --> -->
+<!-- 1. [All 2016 books](pdf/all_books16.html) -->
+<!-- <!-- -1. [REU vs. Reu ru](pdf/REU_ru_REU.html)--> -->
+<!-- 1. [Country profiles 20170601](pdf/country_profiles_20170601.html) - latest -->
+<!-- 1. [Country profiles 20170306](pdf/country_profiles_20170301.html) - one comparing changes to version Stacey started with -->
+<!-- 1. [Country profiles 20170221](pdf/country_profiles_20170221.html) - one i presented over skype -->
+
+# Data checks, tests and issue tracking
+
+<!-- 1. [General issue tracker](https://pad.okfn.org/p/faopocketbook2017_general) -->
+<!-- 1. [Google sheet for comparison](https://docs.google.com/spreadsheets/d/1qJ0NIP5s8aEA7ew8WEe_GBjOsk-DjJmEUQrlvPIyiRI/edit#gid=1197190715) -->
+<!-- 1. [Pocketbook tests](http://software.markuskainu.fi/fao/pocketbook_tests/) -->
+<!-- 1. [Final data tests](datatests.html) -->
+
+
+# Data sources
+
+<!-- 1. [Faostat](http://www.fao.org/faostat/en/#home) -->
+<!-- 1. [World Development Indicators](http://data.worldbank.org/data-catalog/world-development-indicators) -->
+<!-- 1. [ILO](http://www.ilo.org/ilostat/faces/ilostat-home/download?_adf.ctrl-state=xh99k169b_4&_afrLoop=54910682937899#!) -->
+
+# Source code
+
+1. [fra_countryprofiles](https://github.com/muuankarski/fra_countryprofiles/)
+<!-- 1. [pocketbook_database](https://github.com/UNFAOstatistics/pocketbook_database/) -->
+<!-- 1. [*How to edit in Github* gif-image](github_browser_edit.gif) -->
+
+
+# Data
+
+<!-- 1. [all faostat in single csv (first 10 000 lines)](data/faostat.csv) - *original has 76 million rows, 7,2 GB as .csv* -->
+<!-- 1. [metadata for the above](data/meta_faostat.csv) -->
+<!-- 1. [data from where the book is generated from (with few exceptions...)](data/data_for_book.csv) -->
+
+
+# misc
+
+- [working hours](http://software.markuskainu.fi/fao/fra_hours/index.html)
+<!-- - [rstudio](http://82.181.174.101) -->
