@@ -1,0 +1,28 @@
+
+%   _          _ _             _                 _
+%  | | ___ __ (_) |_ _ __     | |__   ___   ___ | | _____
+%  | |/ / '_ \| | __| '__|____| '_ \ / _ \ / _ \| |/ / __|
+%  |   <| | | | | |_| | |_____| | | | (_) | (_) |   <\__ \
+%  |_|\_\_| |_|_|\__|_|       |_| |_|\___/ \___/|_|\_\___/
+%
+
+% Set document wide settings for knitr
+
+<<setup, echo=FALSE, message=FALSE, warning=FALSE, results='hide'>>=
+source("../../input/code/knitr_hooks.R")
+@
+
+
+<<setup-code, eval=TRUE>>=
+knitr::read_chunk("../../input/code/figures_tables.R")
+@
+
+
+<<setup, eval=TRUE>>=
+@
+
+
+<<bar1, eval=TRUE, bar1_smartphone=TRUE>>=
+@
+
+
