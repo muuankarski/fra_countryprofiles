@@ -1,16 +1,128 @@
+\documentclass[10pt]{scrartcl}
+% \usepackage[paperwidth=4.28in, paperheight=7.75in,margin=5mm]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[parfill]{parskip}
 
-%   _          _ _             _                 _
-%  | | ___ __ (_) |_ _ __     | |__   ___   ___ | | _____
-%  | |/ / '_ \| | __| '__|____| '_ \ / _ \ / _ \| |/ / __|
-%  |   <| | | | | |_| | |_____| | | | (_) | (_) |   <\__ \
-%  |_|\_\_| |_|_|\__|_|       |_| |_|\___/ \___/|_|\_\___/
-%
 
-% Set document wide settings for knitr
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \vspace{-10mm}
+  \includegraphics{FAO_logo_Black_2lines_en}\\
+  \vspace{10mm}
+}
+\posttitle{\end{center}}
 
-<<knitr_setup, echo=FALSE, message=FALSE, warning=FALSE, results='hide'>>=
-source("../../input/code/knitr_hooks.R")
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{caption} 
+\captionsetup[table]{skip=10pt}
+\usepackage[default,osfigures,scale=0.85]{opensans}
+\begin{document}
+
+
+<<title, results = "asis" , echo = FALSE>>=
+cat(paste0(
+'
+\\title{FRA Country Profile}
+\\author{\\huge{ ',cntryname,'}}
+\\date{',Sys.time(),'}
+\\maketitle
+% \\tableofcontents
+'  
+))
+@
+
+
+<<setup, echo=FALSE, message=FALSE, warning=FALSE, results='hide'>>=
+opts_chunk$set(list(echo=FALSE,
+                    eval=TRUE,
+                    cache=FALSE,
+                    warning=FALSE,
+                    message=FALSE,
+                    dev="cairo_pdf",
+                    fig.ext='pdf',
+                    results='asis')
+)
+
+# plot spesification
+small_width <- 6
+small_height <- 5.5
+tall_height <- 11
+tall_out_height = "0.8\\pagewidth"
+tall_out_width = "0.8\\pageheight"
+@
+
+
+<<setup-code, eval=TRUE>>=
+knitr::read_chunk("../../input/code/figures_tables.R")
+@
+
+
+<<setup>>=
+@
+
+
+<<introtexts, results = "asis">>=
+@
+
+\clearpage
+
+<<map1, fig.height = 9, eval = include_plots>>=
+@
+
+
+<<cntrytable, eval = include_tables>>=
 @
 
 
 
+%\section{Forest area and land use}
+
+<<line_forest_area, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<pie_land_use, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<land_use_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.extra='angle=90', out.width= "180%">>=
+@
+
+
+
+%\section{Forest types}
+
+<<line_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<pie_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<forest_type_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.extra='angle=90', out.width= "180%">>=
+@
+
+
+
+<<line_forest_fires, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+<<line_forest_designation_trends, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<pie_ownership, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+<<line_carbon, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+<<table_production, eval = include_tables>>=
+@
+
+
+\end{document}

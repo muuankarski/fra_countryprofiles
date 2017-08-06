@@ -1,16 +1,95 @@
 
-%   _          _ _             _                 _
-%  | | ___ __ (_) |_ _ __     | |__   ___   ___ | | _____
-%  | |/ / '_ \| | __| '__|____| '_ \ / _ \ / _ \| |/ / __|
-%  |   <| | | | | |_| | |_____| | | | (_) | (_) |   <\__ \
-%  |_|\_\_| |_|_|\__|_|       |_| |_|\___/ \___/|_|\_\___/
-%
+```{r, setup1, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+# source("../../input/code/knitr_hooks.R")
 
-% Set document wide settings for knitr
+# fra_pdf = function(file, width, height) {
+#   cairo_pdf(file, width = width, height = height, pointsize = 10, family = "PT Sans")
+#   # svglite::svglite(file, width = width, height = height, pointsize = 10)
+# }
+library(knitr)
+opts_chunk$set(list(echo=FALSE,
+                    eval=TRUE,
+                    cache=FALSE,
+                    warning=FALSE,
+                    message=FALSE,
+                    results='asis')
+)
 
-<<knitr_setup, echo=FALSE, message=FALSE, warning=FALSE, results='hide'>>=
-source("../../input/code/knitr_hooks.R")
-@
+# plot spesification
+html_width <- 6
+html_height <- 5.5
+tall_height <- 11
+```
+
+
+```{r, setup-code, eval=TRUE}
+knitr::read_chunk("../../input/code/figures_tables.R")
+```
+
+
+```{r, setup}
+```
+
+
+```{r, introtexts, results = "asis"}
+```
+
+\clearpage
+
+```{r, map1, fig.height = 9, eval = include_plots}
+```
+
+
+```{r, cntrytable, eval = FALSE}
+```
+
+
+
+<!-- %\section{Forest area and land use} -->
+
+```{r, line_forest_area, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+
+```{r, pie_land_use, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+
+```{r, land_use_comparison, fig.width = tall_height, fig.height = html_width, eval = include_plots, out.extra='angle=90', out.width= "180%"}
+```
+
+
+
+<!-- %\section{Forest types} -->
+
+```{r, line_forest_type, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+
+```{r, pie_forest_type, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+
+```{r, forest_type_comparison, fig.width = tall_height, fig.height = html_width, eval = include_plots}
+```
+
+
+
+```{r, line_forest_fires, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+```{r, line_forest_designation_trends, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+
+```{r, pie_ownership, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+```{r, line_carbon, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```
+
+```{r, table_production, eval = FALSE}
+```
 
 
 

@@ -3,8 +3,11 @@
 setwd("~/faosync/fra/fra_countryprofiles/output/process/")
 
 ## ---- setup ----
-source("../../input/code/knitr_hooks.R")
-# source('../../input/code/plot/map_categories.R')
+library(knitr)
+library(tidyverse)
+library(hrbrthemes)
+library(extrafont)
+loadfonts()
 
 ## ---- introtexts ----
 readLines(paste0("../../input/data/intro_texts/",cntrycode,".txt")) %>% 
@@ -49,6 +52,7 @@ cforstat <- forstat %>% filter(Country == cntrycode) %>%
                         `USDForGrosVal` = "Gross value added from forestry (1000 USD)"
                         )) %>% 
   select(label,value)
+if (nrow(cforstat) > 0){
 print.xtable(xtable(cforstat), 
              include.rownames = FALSE, 
              include.colnames = FALSE,
@@ -58,13 +62,15 @@ print.xtable(xtable(cforstat),
              # only.contents = TRUE,
              # zero.print=zero.print
              )
-
+}
 
 
 ## ---- line_forest_area ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% "F_area")
+
+if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, y=value)) + 
   geom_point() + geom_line() +
   labs(x = "Year",
@@ -73,7 +79,7 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        subtitle="Perhaps we can add some vague definition of the indicator here...?",
        caption = "Source: Cite the right data here!") +
   theme_ipsum_rc()
-
+}
 ## ---- pie_land_use ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
@@ -86,6 +92,7 @@ pdat <- mdat %>%
 
 pdat$label <- factor(pdat$label, levels = pdat$label)
 
+if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
 p <- p + geom_bar(position="fill", stat="identity")
 p <- p + geom_label(aes(x=sharesum * 2/2,y=share+2,label=paste0(share,"%")),
@@ -106,6 +113,8 @@ p <- p + theme(axis.text = element_blank(),
                legend.title = element_blank(),
                legend.position = "right")
 p
+}
+
 
 ## ---- land_use_comparison
 pdat <- mdat %>% 
@@ -122,6 +131,7 @@ pdat <- mdat %>%
          FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
          NA))
 
+if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
   theme_ipsum_rc() + 
@@ -136,7 +146,7 @@ ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) +
        title= "Share of forest area of total land use",
        subtitle="Ranking of all FAO member countries",
        caption = "Source: Cite the right data here!")
-
+}
 
 
 ## ---- line_forest_type ----
@@ -147,6 +157,8 @@ pdat <- mdat %>%
                         `F_prim` = "Primary forest",
                         `F_onr` = "Other naturally regenerated forest",
                         `F_pla` = "Planted forest"))
+
+if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, color=label, y=value, group = label)) + 
   geom_point() + geom_line() +
   # labs
@@ -162,6 +174,8 @@ ggplot(data = pdat, aes(x=year, color=label, y=value, group = label)) +
   theme_ipsum_rc() + scale_color_ipsum() +
   theme(legend.position = "top",
         legend.title = element_blank())
+}
+
 
 ## ---- pie_forest_type ----
 pdat <- mdat %>% 
@@ -179,6 +193,7 @@ pdat <- mdat %>%
 
 pdat$label <- factor(pdat$label, levels = pdat$label)
 
+if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
 p <- p + geom_bar(position="fill", stat="identity")
 p <- p + geom_label(aes(x=sharesum * 2/2,y=share+2,label=paste0(share,"%")),
@@ -199,6 +214,8 @@ p <- p + theme(axis.text = element_blank(),
                legend.title = element_blank(),
                legend.position = "right")
 p
+}
+
 
 ## ---- forest_type_comparison ----
 pdat <- mdat %>% 
@@ -216,6 +233,7 @@ pdat <- mdat %>%
                        FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
                        NA))
 
+if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
   theme_ipsum_rc() + 
@@ -230,12 +248,14 @@ ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) +
        title= "Share of primary forest area of total forests",
        subtitle="Ranking of all FAO member countries",
        caption = "Source: Cite the right data here!")
-
+}
 
 ## ---- line_forest_fires ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% "Fires")
+
+if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, y=value)) + 
   geom_point() + geom_line() +
   labs(x = "Year",
@@ -244,7 +264,7 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        subtitle="Perhaps we can add some vague definition of the indicator here...?",
        caption = "Source: Cite the right data here!") +
   theme_ipsum_rc()
-
+}
 
 ## ---- line_forest_designation_trends ----
 pdat <- mdat %>% 
@@ -254,6 +274,8 @@ pdat <- mdat %>%
                         `D_prod` = "Production",
                         `D_MU` = "Multiple use",
                         `D_BD` = "Conservation \n of biodiversity"))
+
+if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, color=label, y=value, group = label)) + 
   geom_point() + geom_line() +
   # labs
@@ -269,7 +291,7 @@ ggplot(data = pdat, aes(x=year, color=label, y=value, group = label)) +
   theme_ipsum_rc() + scale_color_ipsum() +
   theme(legend.position = "top",
         legend.title = element_blank())
-
+}
 
 ## ---- pie_ownership ----
 pdat <- mdat %>% 
@@ -287,6 +309,7 @@ pdat <- mdat %>%
 
 pdat$label <- factor(pdat$label, levels = pdat$label)
 
+if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
 p <- p + geom_bar(position="fill", stat="identity")
 p <- p + geom_label(aes(x=sharesum * 2/2,y=share+2,label=paste0(share,"%")),
@@ -307,12 +330,13 @@ p <- p + theme(axis.text = element_blank(),
                legend.title = element_blank(),
                legend.position = "right")
 p
-
+}
 
 ## ---- line_carbon ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% "C_FGB")
+if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, y=value)) + 
   geom_point() + geom_line() +
   labs(x = "Year",
@@ -321,7 +345,7 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        subtitle="million metric tonnes",
        caption = "Source: Cite the right data here!") +
   theme_ipsum_rc()
-
+}
 ## ---- table_production ----
 # colnames(faostat) <- c("Country", 
 #                        "Forest product categories", 
@@ -333,9 +357,10 @@ ggplot(data = pdat, aes(x=year, y=value)) +
 #                        "Production (m\\textsuperscript{3})") 
 cfaostat <- faostat %>% filter(ISO == cntrycode) %>% 
   select(-ISO)
+if (nrow(cfaostat) > 0){
 print.xtable(xtable(cfaostat), 
              booktabs = TRUE,
              include.rownames = FALSE, 
              timestamp=NULL, 
              sanitize.text.function = identity)
-
+}

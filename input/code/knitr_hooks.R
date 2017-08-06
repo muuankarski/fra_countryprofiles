@@ -9,8 +9,6 @@ fra_pdf = function(file, width, height) {
   cairo_pdf(file, width = width, height = height, pointsize = 10, family = "PT Sans")
   # svglite::svglite(file, width = width, height = height, pointsize = 10)
 }
-
-
 opts_chunk$set(list(echo=FALSE,
                     eval=TRUE,
                     cache=FALSE,
