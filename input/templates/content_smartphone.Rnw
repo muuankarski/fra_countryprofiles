@@ -49,6 +49,9 @@ source("../../input/code/knitr_hooks.R")
 # plot spesification
 small_width <- 6
 small_height <- 5.5
+tall_height <- 11
+tall_out_height = "0.8\\pagewidth"
+tall_out_width = "0.8\\pageheight"
 @
 
 
@@ -82,6 +85,11 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 @
 
 
+<<land_use_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.extra='angle=90', out.width= "180%">>=
+@
+
+
+
 %\section{Forest types}
 
 <<line_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
@@ -90,6 +98,11 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 <<pie_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
 @
+
+
+<<forest_type_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.extra='angle=90', out.width= "180%">>=
+@
+
 
 
 <<line_forest_fires, fig.width = small_width, fig.height = small_height, eval = include_plots>>=

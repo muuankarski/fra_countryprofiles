@@ -95,7 +95,7 @@ cntrycodes <- FAOcountryProfile %>%
 # loop for smartphone begins
 # for (cntrycode in cntrycodes){
 
-# cntrycode <- "KHM" # debug with Finland
+cntrycode <- "FIN" # debug with Finland
 # cntrycode <- 106 # debug with Italy
 # cntrycode <- 33 # debug with Canada
 

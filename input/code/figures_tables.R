@@ -3,7 +3,6 @@
 setwd("~/faosync/fra/fra_countryprofiles/output/process/")
 
 ## ---- setup ----
-source("../../input/code/ggplot2_themes.R")
 source("../../input/code/knitr_hooks.R")
 # source('../../input/code/plot/map_categories.R')
 
@@ -108,6 +107,37 @@ p <- p + theme(axis.text = element_blank(),
                legend.position = "right")
 p
 
+## ---- land_use_comparison
+pdat <- mdat %>% 
+  filter(variable %in% c("F_area","OWL","OL"),
+         year == 2015) %>% 
+  group_by(Country) %>% 
+  mutate(share = round(value / sum(value) * 100, 3),
+         sharesum = sum(share)) %>% 
+  ungroup() %>% 
+  filter(variable == "F_area") %>% 
+  select(Country,share) %>% 
+  arrange(desc(share)) %>% 
+  mutate(fill = ifelse(Country %in% cntrycode, 
+         FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
+         NA))
+
+ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
+  geom_col(show.legend = FALSE) +
+  theme_ipsum_rc() + 
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank()) +
+  geom_label(data = pdat[!is.na(pdat$fill),],
+             aes(x=Country,y=share*1.3,
+                 label = paste0(fill,"\n",round(share,1), " %")), 
+             show.legend = FALSE, 
+             color = "white", lineheight = .8, alpha = .8) +
+  labs(y = "share of total land use",
+       title= "Share of forest area of total land use",
+       subtitle="Ranking of all FAO member countries",
+       caption = "Source: Cite the right data here!")
+
+
 
 ## ---- line_forest_type ----
 pdat <- mdat %>% 
@@ -169,6 +199,37 @@ p <- p + theme(axis.text = element_blank(),
                legend.title = element_blank(),
                legend.position = "right")
 p
+
+## ---- forest_type_comparison ----
+pdat <- mdat %>% 
+  filter(variable %in% c("F_prim", "F_onr", "F_pla"),
+         year == 2015) %>% 
+  group_by(Country) %>% 
+  mutate(share = round(value / sum(value) * 100, 3),
+         sharesum = sum(share)) %>% 
+  ungroup() %>% 
+  filter(variable == "F_prim",
+         !is.na(share)) %>% 
+  select(Country,share) %>% 
+  arrange(desc(share)) %>% 
+  mutate(fill = ifelse(Country %in% cntrycode, 
+                       FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
+                       NA))
+
+ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
+  geom_col(show.legend = FALSE) +
+  theme_ipsum_rc() + 
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank()) +
+  geom_label(data = pdat[!is.na(pdat$fill),],
+             aes(x=Country,y=share*1.3,
+                 label = paste0(fill,"\n",round(share,1), " %")), 
+             show.legend = FALSE, 
+             color = "white", lineheight = .8, alpha = .8) +
+  labs(y = "share of primary forests",
+       title= "Share of primary forest area of total forests",
+       subtitle="Ranking of all FAO member countries",
+       caption = "Source: Cite the right data here!")
 
 
 ## ---- line_forest_fires ----
