@@ -4,7 +4,7 @@ library(extrafont)
 library(hrbrthemes)
 library(xtable)
 
-upload = F
+upload = T
 
 # include_intro <- T
 include_plots <- T
@@ -89,13 +89,13 @@ cntrycodes <- FAOcountryProfile %>%
   # SHORT_NAME variable in FAOcountryProfile 
   filter(SHORT_NAME %in% cntries_in_introtexts,
          !is.na(ISO3_CODE)) %>% 
-  slice(10:30) %>%
+  slice(65:70) %>%
   pull(ISO3_CODE)
 
 # loop for smartphone begins
-# for (cntrycode in cntrycodes){
+for (cntrycode in cntrycodes){
 
-cntrycode <- "FIN" # debug with Finland
+# cntrycode <- "FIN" # debug with Finland
 # cntrycode <- 106 # debug with Italy
 # cntrycode <- 33 # debug with Canada
 
@@ -133,7 +133,7 @@ file.copy(from = "./output/process/smartphone.pdf",
           to = paste0("./output/final_smartphone/smartphone_", cntrycode,".pdf"), 
           overwrite = TRUE)
 
-# } # loop for smartphone ends
+} # loop for smartphone ends
 
 
 ###### A4 BEGINS #########

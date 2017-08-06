@@ -67,6 +67,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 <<introtexts, results = "asis">>=
 @
 
+\clearpage
 
 <<map1, fig.height = 9, eval = include_plots>>=
 @
@@ -74,6 +75,8 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 <<cntrytable, eval = include_tables>>=
 @
+
+
 
 %\section{Forest area and land use}
 
