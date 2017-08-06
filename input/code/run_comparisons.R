@@ -5,7 +5,7 @@ dir.create(paste0(root.dir,"/output"), recursive = TRUE, showWarnings = FALSE)
 file.copy(paste0(root.dir,"/input/templates/toc.Rmd"), to = paste0(root.dir,"/output"), overwrite = TRUE)
 
 setwd(paste0(root.dir,"/output"))
-rmarkdown::render("toc.Rmd", output_file = "index.html")
+rmarkdown::render("toc.Rmd",output_file = "index.html")
 file.remove("./toc.Rmd")
 setwd(root.dir)
 

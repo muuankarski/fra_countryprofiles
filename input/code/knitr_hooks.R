@@ -17,7 +17,7 @@ opts_chunk$set(list(echo=FALSE,
                     warning=FALSE,
                     message=FALSE,
                     # cache.path="~/fao_cache/regional15/",
-                    dev="fra_pdf",
+                    dev="cairo_pdf",
                     fig.ext='pdf',
                     results='asis')
 )
@@ -26,17 +26,12 @@ opts_chunk$set(list(echo=FALSE,
 
 knit_hooks$set(bar1_smartphone = function(before, options, envir) {
   
-  # challenge with hooks was that when eval=FALSE hook was still executed and produced error
-  # Added the following line for each hook that stops the function IF there is FALSE in eval either
-  # written directly or passed through the spread condition region gadget thing..
-  
-  # if (options$short_text_ChartPage == FALSE) return()
   # Set fig size
-  fig_width  =  8
-  fig_height =  8
-  if (!before) {
-    return(paste0("\\textbf{ ",cntryname," } \n",
-                  "\\textit{",cntryname,"} \n"))
+  if (before){
+    fig.width  =  3
+    fig.height =  3 
+  } else {
+    return(paste0("\\textbf{ ",cntryname," } \n"))
   }
 })
 

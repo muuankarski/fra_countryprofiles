@@ -1,3 +1,39 @@
+\documentclass[10pt]{scrartcl}
+\usepackage[paperwidth=4.28in, paperheight=7.75in,margin=5mm]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[parfill]{parskip}
+
+
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \vspace{-10mm}
+  \includegraphics{FAO_logo_Black_2lines_en}\\
+  \vspace{10mm}
+}
+\posttitle{\end{center}}
+
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{caption} 
+\captionsetup[table]{skip=10pt}
+\usepackage[default,osfigures,scale=0.85]{opensans}
+\begin{document}
+
+
+<<title, results = "asis" , echo = FALSE>>=
+cat(paste0(
+'
+\\title{FRA Country Profile}
+\\author{\\huge{ ',cntryname,'}}
+\\maketitle
+% \\tableofcontents
+'  
+))
+@
+
+
 
 %   _          _ _             _                 _
 %  | | ___ __ (_) |_ _ __     | |__   ___   ___ | | _____
@@ -10,6 +46,9 @@
 
 <<setup, echo=FALSE, message=FALSE, warning=FALSE, results='hide'>>=
 source("../../input/code/knitr_hooks.R")
+# plot spesification
+small_width <- 6
+small_height <- 5.5
 @
 
 
@@ -18,11 +57,56 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 @
 
 
-<<setup, eval=TRUE>>=
+<<setup>>=
 @
 
 
-<<bar1, eval=TRUE, bar1_smartphone=TRUE>>=
+<<introtexts, results = "asis">>=
 @
 
 
+<<map1, fig.height = 9, eval = include_plots>>=
+@
+
+
+<<cntrytable, eval = include_tables>>=
+@
+
+%\section{Forest area and land use}
+
+<<line_forest_area, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<pie_land_use, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+%\section{Forest types}
+
+<<line_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<pie_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<line_forest_fires, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+<<line_forest_designation_trends, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+
+<<pie_ownership, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+<<line_carbon, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+@
+
+<<table_production, eval = include_tables>>=
+@
+
+
+\end{document}
