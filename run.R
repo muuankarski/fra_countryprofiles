@@ -258,6 +258,9 @@ output:
 
 ###
 
+cat("Options +Indexes", file = "./output/final_a4/.htaccess")
+cat("Options +Indexes", file = "./output/final_html/.htaccess")
+cat("Options +Indexes", file = "./output/final_smartphone/.htaccess")
 
 if (upload) source("./input/code/run_comparisons.R")
 
