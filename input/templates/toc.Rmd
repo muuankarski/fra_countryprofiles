@@ -26,6 +26,8 @@ output:
 
 ## Links to each existing document 
 
+Only showing the countries that are currently tested with..
+
 | Country | smartphone | A4 | html |
 | ------  | --------   | --- | ---- |
 ```{r, echo=FALSE, results='asis'}
@@ -66,7 +68,9 @@ for (i in 1:length(codes_in_introtexts)){
                  # if not just the text
                  "html"
                  )
-
+    
+    # if all missing, exclude country from table
+  if (!grepl("\\(", col2) & !grepl("\\(", col3) & !grepl("\\(", col4)) next()
   cat(paste0("| ",col1," | ", col2, " | ", col3, " | ", col4, " |\n"))
   
 }

@@ -2,6 +2,13 @@
 
 setwd("~/faosync/fra/fra_countryprofiles/output/process/")
 
+if (debug){
+  
+  cntrycode = "FIN"
+  cntryname = "Finland"  
+  
+}
+
 ## ---- setup ----
 library(knitr)
 library(tidyverse)
@@ -95,7 +102,7 @@ pdat$label <- factor(pdat$label, levels = pdat$label)
 if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
 p <- p + geom_bar(position="fill", stat="identity")
-p <- p + geom_label(aes(x=sharesum * 2/2,y=share+2,label=paste0(share,"%")),
+p <- p + geom_label(aes(x=sharesum * 2/2,y=share+10,label=paste0(share,"%")),
                     label.padding = unit(0.20, "lines"),
                     position="fill",
                     color="white",lineheight=.7,family = "Roboto",
@@ -196,7 +203,7 @@ pdat$label <- factor(pdat$label, levels = pdat$label)
 if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
 p <- p + geom_bar(position="fill", stat="identity")
-p <- p + geom_label(aes(x=sharesum * 2/2,y=share+2,label=paste0(share,"%")),
+p <- p + geom_label(aes(x=sharesum * 2/2,y=share+10,label=paste0(share,"%")),
                     label.padding = unit(0.20, "lines"),
                     position="fill",
                     color="white",lineheight=.7,family = "Roboto",
@@ -312,7 +319,7 @@ pdat$label <- factor(pdat$label, levels = pdat$label)
 if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
 p <- p + geom_bar(position="fill", stat="identity")
-p <- p + geom_label(aes(x=sharesum * 2/2,y=share+2,label=paste0(share,"%")),
+p <- p + geom_label(aes(x=sharesum * 2/2,y=share+10,label=paste0(share,"%")),
                     label.padding = unit(0.20, "lines"),
                     position="fill",
                     color="white",lineheight=.7,family = "Roboto",

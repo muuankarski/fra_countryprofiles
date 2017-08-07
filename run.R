@@ -5,6 +5,7 @@ library(hrbrthemes)
 library(xtable)
 
 upload = T
+debug = T
 
 # include_intro <- T
 include_plots <- T
@@ -112,8 +113,10 @@ file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf",
 
 cntrycode <- "FIN" # debug with Finland
 
+cntrycodes <- c("FIN","SWE","ITA","IND","CAN","AFG","AUS")
+
 # loop for smartphone begins
-for (cntrycode in cntrycodes[62:160]){
+for (cntrycode in cntrycodes){
 
 cntryname <- FAOcountryProfile %>% 
   filter(ISO3_CODE == cntrycode) %>% 
