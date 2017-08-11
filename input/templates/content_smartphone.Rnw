@@ -5,6 +5,15 @@
 \usepackage{titling}
 \usepackage[parfill]{parskip}
 
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 
 \pretitle{%
   \begin{center}
@@ -29,7 +38,7 @@ cat(paste0(
 \\author{\\huge{ ',cntryname,'}}
 \\date{',Sys.time(),'}
 \\maketitle
-% \\tableofcontents
+\\tableofcontents
 '  
 ))
 @
@@ -50,8 +59,8 @@ opts_chunk$set(list(echo=FALSE,
 
 # plot spesification
 small_width <- 6
-small_height <- 5.5
-tall_height <- 11
+small_height <- 5
+tall_height <- 10
 tall_out_height = "0.8\\pagewidth"
 tall_out_width = "0.8\\pageheight"
 @
@@ -65,6 +74,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 <<setup>>=
 @
 
+\section{Introduction}
 
 <<introtexts, results = "asis">>=
 @
@@ -80,7 +90,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 
 
-%\section{Forest area and land use}
+\section{Forest area and land use}
 
 <<line_forest_area, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
 @
@@ -95,7 +105,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 
 
-%\section{Forest types}
+\section{Forest types}
 
 <<line_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
 @
@@ -105,10 +115,11 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 @
 
 
-<<forest_type_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.extra='angle=90', out.width= "180%">>=
+<<forest_type_comparison, fig.width = small_width, fig.height = tall_height, eval = include_plots>>=
 @
 
 
+\section{Another section here}
 
 <<line_forest_fires, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
 @

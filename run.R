@@ -1,13 +1,32 @@
 # Main script for producing the documents
 library(tidyverse)
 library(extrafont)
+loadfonts()
 library(hrbrthemes)
 library(xtable)
 
-upload = T
-debug = T
+upload <- T
+debug <- F
+all_in <- F
 
-# include_intro <- T
+
+# Which doctypes to process
+smartphone <- T
+a4 <- T
+html <- T
+
+# set debug countrycodes
+cntrycodes <- c("FIN",
+                "ITA",
+                "IND",
+                "CAN",
+                "AFG",
+                "AUS", 
+                "COG", # republic of Congo
+                "BRA",
+                "KAZ")
+
+include_intro <- T
 include_plots <- T
 include_tables <- T
 
@@ -96,6 +115,8 @@ dir.create("./output/final_html/", recursive = TRUE, showWarnings = FALSE)
 
 # add a test that only run for countries you can find a matching introductory text
 cntries_in_introtexts <- gsub("\\.tmp$", "", list.files("./input/data/intro_texts/", ".tmp"))
+
+if (all_in){
 cntrycodes <- FAOcountryProfile %>% 
   # lets work only with countries that match in introtext filenames with 
   # SHORT_NAME variable in FAOcountryProfile 
@@ -103,7 +124,7 @@ cntrycodes <- FAOcountryProfile %>%
          !is.na(ISO3_CODE)) %>% 
   # slice(65:70) %>%
   pull(ISO3_CODE)
-
+}
 ###### SMARTPHONE OPTIMIZED BEGINS #########
 
 unlink("./output/process/figure", recursive = TRUE, force = TRUE)
@@ -111,11 +132,11 @@ file.remove(list.files("./output/process/", full.names = TRUE))
 file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf", 
           to = "./output/process/")
 
-cntrycode <- "FIN" # debug with Finland
-
-cntrycodes <- c("FIN","SWE","ITA","IND","CAN","AFG","AUS")
 
 # loop for smartphone begins
+if (smartphone){
+doctype <- "latex"
+if (debug) cntrycode="FIN"
 for (cntrycode in cntrycodes){
 
 cntryname <- FAOcountryProfile %>% 
@@ -153,7 +174,7 @@ file.copy(from = "./output/process/smartphone.pdf",
           overwrite = TRUE)
 
 } # loop for smartphone ends
-
+}
 
 ###### A4 BEGINS #########
 
@@ -162,6 +183,8 @@ file.remove(list.files("./output/process/", full.names = TRUE))
 file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf", 
           to = "./output/process/")
 
+if (a4){
+doctype <- "latex"
 for (cntrycode in cntrycodes){
   
   # cntrycode <- "FIN" # debug with Finland
@@ -201,14 +224,17 @@ for (cntrycode in cntrycodes){
             overwrite = TRUE)
   
 } # loop for a4 ends
-
+}
 
 ###### html BEGINS #########
 
 unlink("./output/process/figure", recursive = TRUE, force = TRUE)
 file.remove(list.files("./output/process/", full.names = TRUE))
-dev.off()
 
+
+
+if (html){
+doctype <- "html"
 for (cntrycode in cntrycodes){
   
   # cntrycode <- "FIN" # debug with Finland
@@ -254,7 +280,7 @@ output:
             overwrite = TRUE)
   
 } # loop for a4 ends
-
+}
 
 ###
 

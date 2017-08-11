@@ -34,18 +34,17 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 ```{r, introtexts, results = "asis"}
 ```
 
-\clearpage
 
 ```{r, map1, fig.height = 9, eval = include_plots}
 ```
 
 
-```{r, cntrytable, eval = FALSE}
+```{r, cntrytable}
 ```
 
 
 
-<!-- %\section{Forest area and land use} -->
+# Forest area and land use
 
 ```{r, line_forest_area, fig.width = html_width, fig.height = html_height, eval = include_plots}
 ```
@@ -60,7 +59,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 
 
-<!-- %\section{Forest types} -->
+# Forest types
 
 ```{r, line_forest_type, fig.width = html_width, fig.height = html_height, eval = include_plots}
 ```
@@ -74,6 +73,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 ```
 
 
+# Another section here
 
 ```{r, line_forest_fires, fig.width = html_width, fig.height = html_height, eval = include_plots}
 ```
@@ -88,7 +88,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 ```{r, line_carbon, fig.width = html_width, fig.height = html_height, eval = include_plots}
 ```
 
-```{r, table_production, eval = FALSE}
+```{r, table_production}
 ```
 
 

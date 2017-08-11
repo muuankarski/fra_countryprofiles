@@ -5,9 +5,12 @@ setwd("~/faosync/fra/fra_countryprofiles/output/process/")
 if (debug){
   
   cntrycode = "FIN"
-  cntryname = "Finland"  
-  
+  cntryname = "Finland"
+
 }
+
+  
+
 
 ## ---- setup ----
 library(knitr)
@@ -15,6 +18,7 @@ library(tidyverse)
 library(hrbrthemes)
 library(extrafont)
 loadfonts()
+
 
 ## ---- introtexts ----
 readLines(paste0("../../input/data/intro_texts/",cntrycode,".txt")) %>% 
@@ -60,15 +64,28 @@ cforstat <- forstat %>% filter(Country == cntrycode) %>%
                         )) %>% 
   select(label,value)
 if (nrow(cforstat) > 0){
-print.xtable(xtable(cforstat), 
-             include.rownames = FALSE, 
-             include.colnames = FALSE,
-             booktabs = TRUE,
-             timestamp=NULL, 
-             sanitize.text.function = identity
-             # only.contents = TRUE,
-             # zero.print=zero.print
-             )
+  
+  if (doctype == "latex"){
+    print.xtable(xtable(cforstat), 
+                 include.rownames = FALSE, 
+                 include.colnames = FALSE,
+                 booktabs = TRUE,
+                 timestamp=NULL, 
+                 sanitize.text.function = identity
+                 # only.contents = TRUE,
+                 # zero.print=zero.print
+    ) 
+    } else {
+      # html-table
+      print.xtable(xtable(cforstat),
+                   type = "html", 
+                   include.rownames = FALSE, 
+                   include.colnames = FALSE,
+                   timestamp=NULL
+      )
+    }
+
+
 }
 
 
@@ -365,9 +382,25 @@ ggplot(data = pdat, aes(x=year, y=value)) +
 cfaostat <- faostat %>% filter(ISO == cntrycode) %>% 
   select(-ISO)
 if (nrow(cfaostat) > 0){
-print.xtable(xtable(cfaostat), 
-             booktabs = TRUE,
-             include.rownames = FALSE, 
-             timestamp=NULL, 
-             sanitize.text.function = identity)
+  
+  if (doctype == "latex"){
+    print.xtable(xtable(cfaostat), 
+                 include.rownames = FALSE, 
+                 include.colnames = FALSE,
+                 booktabs = TRUE,
+                 timestamp=NULL, 
+                 sanitize.text.function = identity
+                 # only.contents = TRUE,
+                 # zero.print=zero.print
+    ) 
+    } else {
+      # html-table
+      print.xtable(xtable(cfaostat),
+                   type = "html", 
+                   include.rownames = FALSE, 
+                   include.colnames = FALSE,
+                   timestamp=NULL
+      )
+    }
+
 }
