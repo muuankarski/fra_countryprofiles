@@ -125,6 +125,7 @@ cntrycodes <- FAOcountryProfile %>%
   # slice(65:70) %>%
   pull(ISO3_CODE)
 }
+
 ###### SMARTPHONE OPTIMIZED BEGINS #########
 
 unlink("./output/process/figure", recursive = TRUE, force = TRUE)
@@ -228,9 +229,8 @@ for (cntrycode in cntrycodes){
 
 ###### html BEGINS #########
 
-unlink("./output/process/figure", recursive = TRUE, force = TRUE)
-file.remove(list.files("./output/process/", full.names = TRUE))
-
+unlink("./output/process/", recursive = TRUE, force = TRUE)
+dir.create("./output/process/", recursive = TRUE, showWarnings = FALSE)
 
 
 if (html){
@@ -250,15 +250,15 @@ for (cntrycode in cntrycodes){
   
 cat(paste0(
 '---
-title: FRA Country Profile
-author: ',cntryname,'
+title: ',cntryname,'
 date: "`r Sys.time()`"
 output: 
   html_document: 
     toc: true
     toc_float: true
+    self_contained: false
+    lib_dir: libs
     number_sections: yes
-    code_folding: hide
     theme: yeti
 ---
 '), file = rnwfile)
@@ -267,19 +267,36 @@ output:
   # add content
   readLines("./input/templates/content_html.Rmd") %>% 
     cat(., sep = "\n", file = rnwfile, append = TRUE)
-  
+  head <- readLines("./input/templates/head.html")
   
   setwd("~/faosync/fra/fra_countryprofiles/output/process/")
   rmarkdown::render("html.Rmd", encoding = "utf-8" )
+  
+  # input the new heading & default navbar
+  html_content <- readLines("./html.html")
+  stop <- match('<div class="fluid-row" id="header">', html_content)
+  html_content <- html_content[-1:-stop]
+  c(head,html_content) %>% 
+    writeLines("./html.html")
 
   
-    setwd("~/faosync/fra/fra_countryprofiles/")
+  setwd("~/faosync/fra/fra_countryprofiles/")
   # Copy the final pdf into the output/smartphone folder
   file.copy(from = "./output/process/html.html", 
             to = paste0("./output/final_html/html_", cntrycode,".html"), 
             overwrite = TRUE)
   
-} # loop for a4 ends
+  
+  file.copy(from = paste0("./output/process/figure_",cntrycode,"/"), 
+            to = "./output/final_html/", 
+            overwrite = TRUE, recursive = TRUE)
+  
+  file.copy(from = "./output/process/libs/", 
+            to = "./output/final_html/", 
+            overwrite = FALSE, recursive = TRUE)
+  
+  
+} # loop for html ends
 }
 
 ###

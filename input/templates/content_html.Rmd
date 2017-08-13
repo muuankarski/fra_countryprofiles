@@ -8,6 +8,7 @@
 # }
 library(knitr)
 opts_chunk$set(list(echo=FALSE,
+                    fig.path = paste0('./figure_',cntrycode,'/'),
                     eval=TRUE,
                     cache=FALSE,
                     warning=FALSE,
