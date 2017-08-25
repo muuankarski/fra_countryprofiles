@@ -32,13 +32,19 @@ map.plot <- mapdata %>%
 mapcentr <- ccentroids %>% filter(ISO3 == cntrycode)
 
 worldmap <- ggplot(map.plot, aes(x = long, y = lat, group = group)) +
-  geom_polygon(aes(fill = fill), color = "white", show.legend = FALSE)
+  geom_polygon(aes(fill = fill), color = alpha(alpha = .5, colour = "white"), show.legend = FALSE)
 worldmap + coord_map("ortho", orientation = c(mapcentr$LAT, mapcentr$LON, 0)) + 
-  labs(x="Fuel effiiency (mpg)", y="Weight (tons)",
-       title= paste(cntryname, "is here!"),
-       subtitle="Some dynamic content could be added here",
-       caption = "Source: Cite the right data here!") +
+  # labs(x="Fuel effiiency (mpg)", y="Weight (tons)",
+  #      title= paste(cntryname, "is here!"),
+  #      subtitle="Some dynamic content could be added here",
+  #      caption = "Source: Cite the right data here!") +
+  ggrepel::geom_label_repel(data =   map.plot %>% filter(!is.na(fill)) %>% 
+                              summarise(long = mean(long),
+                                        lat = mean(lat)),
+                            aes(label = cntryname, group = 1), nudge_x = 10, 
+                            nudge_y = -10, fill = "#a25027", color = "white", family = "Roboto", fontface = "bold", size = 7) +
   theme_ipsum_rc(grid = FALSE) +
+  # scale_fill_manual(values = c("#a25027","#a9ccc4","#a9ccc4","#a9ccc4","#a9ccc4")) +
   theme(axis.text = element_blank(),
         axis.title = element_blank())
 
@@ -66,10 +72,10 @@ cforstat <- forstat %>% filter(Country == cntrycode) %>%
 if (nrow(cforstat) > 0){
   
   if (doctype == "latex"){
-    print.xtable(xtable(cforstat), 
+    print.xtable(xtable(cforstat), floating = FALSE,
                  include.rownames = FALSE, 
                  include.colnames = FALSE,
-                 booktabs = TRUE,
+                 booktabs = FALSE,
                  timestamp=NULL, 
                  sanitize.text.function = identity
                  # only.contents = TRUE,
@@ -89,7 +95,7 @@ if (nrow(cforstat) > 0){
 }
 
 
-## ---- line_forest_area ----
+## ---- line_forest_area_pie_land_use
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% "F_area")
@@ -104,7 +110,8 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        caption = "Source: Cite the right data here!") +
   theme_ipsum_rc()
 }
-## ---- pie_land_use ----
+
+## ---- pie_land_use
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("F_area","OWL","OL"),

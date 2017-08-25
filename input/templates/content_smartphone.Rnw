@@ -63,6 +63,7 @@ small_height <- 5
 tall_height <- 10
 tall_out_height = "0.8\\pagewidth"
 tall_out_width = "0.8\\pageheight"
+include_plots <- TRUE
 @
 
 

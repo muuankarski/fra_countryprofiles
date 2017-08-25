@@ -11,9 +11,9 @@ all_in <- F
 
 
 # Which doctypes to process
-smartphone <- T
+smartphone <- F
 a4 <- T
-html <- T
+html <- F
 
 # set debug countrycodes
 cntrycodes <- c("FIN",
@@ -126,12 +126,22 @@ cntrycodes <- FAOcountryProfile %>%
   pull(ISO3_CODE)
 }
 
+
+################################################################
+#                           _         _                                      _  __ 
+#  ___ _ __ ___   __ _ _ __| |_ _ __ | |__   ___  _ __   ___       _ __   __| |/ _|
+# / __| '_ ` _ \ / _` | '__| __| '_ \| '_ \ / _ \| '_ \ / _ \_____| '_ \ / _` | |_ 
+# \__ \ | | | | | (_| | |  | |_| |_) | | | | (_) | | | |  __/_____| |_) | (_| |  _|
+# |___/_| |_| |_|\__,_|_|   \__| .__/|_| |_|\___/|_| |_|\___|     | .__/ \__,_|_|  
+#                              |_|                                |_|              
+
 ###### SMARTPHONE OPTIMIZED BEGINS #########
 
 unlink("./output/process/figure", recursive = TRUE, force = TRUE)
 file.remove(list.files("./output/process/", full.names = TRUE))
 file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf", 
           to = "./output/process/")
+
 
 
 # loop for smartphone begins
@@ -177,11 +187,23 @@ file.copy(from = "./output/process/smartphone.pdf",
 } # loop for smartphone ends
 }
 
+
+#####################################################3
+#      _   _  _                   _  __ 
+#     / \ | || |        _ __   __| |/ _|
+#    / _ \| || |_ _____| '_ \ / _` | |_ 
+#   / ___ \__   _|_____| |_) | (_| |  _|
+#  /_/   \_\ |_|       | .__/ \__,_|_|  
+#                      |_|              
 ###### A4 BEGINS #########
 
 unlink("./output/process/figure", recursive = TRUE, force = TRUE)
 file.remove(list.files("./output/process/", full.names = TRUE))
 file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf", 
+          to = "./output/process/")
+file.copy("./input/figures/bg_1st_page.pdf", 
+          to = "./output/process/")
+file.copy("./input/templates/preamb_a4.tex", 
           to = "./output/process/")
 
 if (a4){
@@ -216,8 +238,8 @@ for (cntrycode in cntrycodes){
     embed_fonts(plot)
   }
   
-  system("pdflatex a4.tex")
-  system("pdflatex a4.tex")
+  system("xelatex a4.tex")
+  system("xelatex a4.tex")
   setwd("~/faosync/fra/fra_countryprofiles/")
   # Copy the final pdf into the output/smartphone folder
   file.copy(from = "./output/process/a4.pdf", 
@@ -227,6 +249,15 @@ for (cntrycode in cntrycodes){
 } # loop for a4 ends
 }
 
+
+
+######################################################
+#  _     _             _ 
+# | |__ | |_ _ __ ___ | |
+# | '_ \| __| '_ ` _ \| |
+# | | | | |_| | | | | | |
+# |_| |_|\__|_| |_| |_|_|
+#  
 ###### html BEGINS #########
 
 unlink("./output/process/", recursive = TRUE, force = TRUE)
