@@ -203,23 +203,29 @@ file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf",
           to = "./output/process/")
 file.copy("./input/figures/bg_1st_page.pdf", 
           to = "./output/process/")
-file.copy("./input/templates/preamb_a4.tex", 
-          to = "./output/process/")
 
-if (a4){
+# if (a4){
 doctype <- "latex"
-for (cntrycode in cntrycodes){
+# for (cntrycode in cntrycodes){
   
-  # cntrycode <- "FIN" # debug with Finland
+  cntrycode <- "FIN" # debug with Finland
   
   cntryname <- FAOcountryProfile %>% 
     filter(ISO3_CODE == cntrycode) %>% 
     mutate(SHORT_NAME = gsub(" |ö|ä|å|", "", SHORT_NAME)) %>% 
     pull(SHORT_NAME)
   
+  iso2c <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
+  file.copy(paste0("~/faosync/fra/fra_countryprofiles/input/figures/flags/",iso2c,".pdf"),
+            "~/faosync/fra/fra_countryprofiles/output/process/")
+  
   rnwfile <- "./output/process/a4.Rnw"
   if (file.exists(rnwfile)) file.remove(rnwfile)
   file.create(rnwfile)
+  
+  # add header
+  readLines("~/faosync/fra/fra_countryprofiles/input/templates/header_a4.tex") %>% 
+    cat(., sep = "\n", file = rnwfile, append = TRUE)
   
   # add content
   readLines("./input/templates/content_a4.Rnw") %>% 
@@ -246,8 +252,8 @@ for (cntrycode in cntrycodes){
             to = paste0("./output/final_a4/a4_", cntrycode,".pdf"), 
             overwrite = TRUE)
   
-} # loop for a4 ends
-}
+# } # loop for a4 ends
+# }
 
 
 

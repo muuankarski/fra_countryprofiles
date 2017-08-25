@@ -1,118 +1,3 @@
-\documentclass[a4paper]{article}
-% \documentclass[10pt]{scrartcl}
-
-% ------------------------------------------------ %
-%                                                  %
-%              Fonts and typography                %
-%                                                  %
-% ------------------------------------------------ %
-
-%% Typography
-\usepackage[no-math]{fontspec}
-\usepackage{color}
-
-% Latin Modern Typewriter
-% \usepackage{lmodern}
-% \renewcommand*\familydefault{\ttdefault} %% Only if the base font of the document is to be typewriter style
-% \usepackage[T1]{fontenc}
-%
-% % Open Sans
-% \usepackage[default,osfigures,scale=0.95]{opensans} %% Alternatively
-% %% use the option 'defaultsans' instead of 'default' to replace the
-% %% sans serif font only.
-% \usepackage[T1]{fontenc}
-
-% \usepackage{opensans}
-
-%% Fonts
-\setmainfont{Roboto}
-\setsansfont{Roboto}
-\setmonofont{Roboto}
-
-%% Sans serif as main font
-\renewcommand{\familydefault}{\sfdefault}
-
-%% Set Sans font in headings
-\usepackage{sectsty}
-\allsectionsfont{\sffamily}
-
-%% Set polyglossia language
-\usepackage{polyglossia}
-\setdefaultlanguage{english}
-% disable hyphenation
-%\hyphenpenalty = 10000
-
-%% Emphasizing inline code output
-\usepackage{alltt}
-
-
-% ------------------------------------------------ %
-%                                                  %
-%              Settings for knitr                  %
-%                                                  %
-% ------------------------------------------------ %
-
-%% for Shaded environment in knitr
-\usepackage{framed}
-\usepackage{fancyhdr}
-
-%% landscape mode
-\usepackage{lscape}
-
-%% Encoding
-%\usepackage[UTF-8]{inputenc}
-
-% rowspacing
-\usepackage{setspace}
-
-% ------------------------------------------------ %
-%                                                  %
-%              Page settings                       %
-%                                                  %
-% ------------------------------------------------ %
-
-% \input{preamb_a4.tex}
-
-%% Use full page in book style
-\usepackage[top=3.5cm, bottom=3.5cm, left=1.5cm, right=1.5cm]{geometry}
-
-%% Set line spacing
-\usepackage{setspace}
-\setstretch{1.0}
-
-%% Disable paragraph indentation
-\usepackage{parskip}
-
-%% Custom headers
-\usepackage{fancyhdr}
-
-%% Multicolumns
-\usepackage{multicol}
-
-% ------------------------------------------------ %
-%                                                  %
-%                  Headings                        %
-%                                                  %
-% ------------------------------------------------ %
-
-\usepackage{titlesec, blindtext, color}
-
-% spacin before and after the section titles
-\titlespacing*{\section}{0pt}{2.5ex}{0.5ex}
-\titlespacing*{\subsection}{0pt}{0.2ex}{0.2ex}
-
-%\definecolor{SkyBlue}{HTML}{3465A4}
-\definecolor{green}{RGB}{26,150,65}
-\definecolor{FAOBlue}{RGB}{80,135,206}
-
-\newcommand{\hsp}{\hspace{20pt}}
-% add the green vertical line after 1st level heading
-\titleformat{\section}[hang]{\large\bfseries}{\thesection\hsp\textcolor{FAOBlue}{|}\hsp}{0pt}{\large\bfseries}
-
-\usepackage{enumerate}
-
-%% Disable section numbers
-\setcounter{secnumdepth}{1}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -120,260 +5,27 @@
 \fancyhead[RE]{\leftmark}
 \fancyhead[LO]{\rightmark}
 \fancyfoot[RO,LE]{\thepage}
-\fancyfoot[C]{\Sexpr{Sys.time()}}
+% \fancyfoot[C]{\Sexpr{Sys.time()}}
+\fancyfoot[L]{\includegraphics[width=6cm]{FAO_logo_Black_2lines_en}}
 
 \fancypagestyle{plain}{%  the preset of fancyhdr 
     \fancyhf{} % clear all header and footer fields
-    \fancyfoot[C]{\textbf{\thepage}} % except the center
+    \fancyfoot[C]{\textbf{\thepage - \Sexpr{Sys.time()}}} % except the center
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}}
 
 \setlength\headheight{36pt}
-\lhead{\Large{Global Forest Resources Assessments (FRA)\\Country profile}}
-\rhead{\includegraphics[width=6cm]{FAO_logo_Black_2lines_en}}
+\lhead{\Large{Global Forest Resources Assessments (FRA) Country profile}}
 
+<<header_flag, echo = FALSE, results = "asis">>=
+cat(paste0('\\rhead{\\Large{',cntrycode,'}\\shadowimage[width=.6cm]{',iso2c,'.pdf}}'))
+@
 
-% \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
-% 
-% \definecolor{gmitblue}{RGB}{93,138,168}
-% 
-% \usetikzlibrary{calc}
-% \renewcommand{\headrulewidth}{0pt}
-% 
-% \pagestyle{fancy}
-% \fancyhf{}
-% \fancyhead[C]{%
-% \begin{tikzpicture}[overlay, remember picture]%
-%     \fill[gmitblue] (current page.north west) rectangle ($(current page.north east)+(0,-1in)$);
-%     \node[anchor=north west, text=white, font=\Large\scshape, minimum size=1in, inner xsep=5mm] at (current page.north west) {A reasonably long title};
-%     \node[anchor=north east, minimum size=1in, inner xsep=5mm] at (current page.north east) {\includegraphics[scale=.2]{example-image-a}};
-%       %node[minimum width=\x2-\x1, minimum height=2cm, draw, rectangle, fill=blue!20, anchor=north west, align=left, text width=\x2-\x1] at ($(current page.north west)$) {\Large\bfseries \quad #1};
-% \end{tikzpicture}
-% }
-% \fancyfoot[CE]{
-%     \begin{tikzpicture}[overlay, remember picture]%
-%     \fill[gmitblue] (current page.south west) rectangle ($(current page.south east)+(0,.5in)$);
-%     \node[anchor=south west, text=white, font=\Large, minimum size=.5in] at (current page.south west) {\thepage};
-%     \node[anchor=south, text=white, font=\large, minimum size=.5in] at (current page.south) {\leftmark};
-%     \node[anchor=south east, text=white, font=\large, minimum size=.5in, inner xsep=5mm] at (current page.south east) {\today};
-% \end{tikzpicture}
-% }
-% \fancyfoot[CO]{
-%     \begin{tikzpicture}[overlay, remember picture]%
-%     \fill[gmitblue] (current page.south west) rectangle ($(current page.south east)+(0,.5in)$);
-%     \node[anchor=south west, text=white, font=\large, minimum size=.5in, inner xsep=5mm] at (current page.south west) {\today};
-%     \node[anchor=south, text=white, font=\large, minimum size=.5in] at (current page.south) {\leftmark};
-%     \node[anchor=south east, text=white, font=\Large, minimum size=.5in] at (current page.south east) {\thepage};
-% \end{tikzpicture}
-% }
-% \setlength{\headheight}{12pt}
-% 
-
-
-% ------------------------------------------------ %
-%                                                  %
-%               Table of content                   %
-%                                                  %
-% ------------------------------------------------ %
-
-% dotted lines for table of content
-
-\makeatletter
-\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
-\makeatother
-\setcounter{tocdepth}{1}
-
-% ------------------------------------------------ %
-%                                                  %
-%               % Colors                           %
-%                                                  %
-% ------------------------------------------------ %
-\usepackage{xcolor}
-
-%% Tango color scheme
-\definecolor{SkyBlue}{HTML}{3465A4}
-\definecolor{DarkSkyBlue}{HTML}{204A87}
-\definecolor{Plum}{HTML}{75507B}
-\definecolor{ScarletRed}{HTML}{CC0000}
-\definecolor{Aluminium1}{HTML}{EEEEEC}
-\definecolor{Aluminium6}{HTML}{2e3436}
-\definecolor{Black}{HTML}{000000}
-
-% ------------------------------------------------ %
-%                                                  %
-%               Links                              %
-%                                                  %
-% ------------------------------------------------ %
-
-%% Hyperref
-\usepackage[colorlinks, breaklinks, bookmarks]{hyperref}
-
-\hypersetup {
-  linkcolor = Aluminium6,
-  citecolor = DarkSkyBlue,
-  filecolor = DarkSkyBlue,
-  urlcolor = DarkSkyBlue
-}
-
-%% Don’t use Mono font for URLs
-\urlstyle{same}
-
-
-% ------------------------------------------------ %
-%                                                  %
-%               Images & tables                    %
-%                                                  %
-% ------------------------------------------------ %
-
-% Images
-\usepackage{graphicx}
-% tables
-\usepackage{longtable}
-\usepackage{booktabs}
-\usepackage{float}
-\restylefloat{table}
-\usepackage{wrapfig}
-
- \renewcommand\arraystretch{1.1} % table rowheight
-% see: http://everythingyouforgetaboutlatex.blogspot.fi/2008/10/formatting-tables.html
-\setlength{\intextsep}{-0.1cm} % spacing between floats
-
-
-% SHADOWS FOR FLAGS
-
-\usepackage{tikz}
-\usetikzlibrary{shadows,calc}
-
-% code adapted from https://tex.stackexchange.com/a/11483/3954
-
-% some parameters for customization
-\def\shadowshift{3pt,-3pt}
-\def\shadowradius{6pt}
-
-\colorlet{innercolor}{black!60}
-\colorlet{outercolor}{gray!05}
-
-% this draws a shadow under a rectangle node
-\newcommand\drawshadow[1]{
-    \begin{pgfonlayer}{shadow}
-        \shade[outercolor,inner color=innercolor,outer color=outercolor] ($(#1.south west)+(\shadowshift)+(\shadowradius/2,\shadowradius/2)$) circle (\shadowradius);
-        \shade[outercolor,inner color=innercolor,outer color=outercolor] ($(#1.north west)+(\shadowshift)+(\shadowradius/2,-\shadowradius/2)$) circle (\shadowradius);
-        \shade[outercolor,inner color=innercolor,outer color=outercolor] ($(#1.south east)+(\shadowshift)+(-\shadowradius/2,\shadowradius/2)$) circle (\shadowradius);
-        \shade[outercolor,inner color=innercolor,outer color=outercolor] ($(#1.north east)+(\shadowshift)+(-\shadowradius/2,-\shadowradius/2)$) circle (\shadowradius);
-        \shade[top color=innercolor,bottom color=outercolor] ($(#1.south west)+(\shadowshift)+(\shadowradius/2,-\shadowradius/2)$) rectangle ($(#1.south east)+(\shadowshift)+(-\shadowradius/2,\shadowradius/2)$);
-        \shade[left color=innercolor,right color=outercolor] ($(#1.south east)+(\shadowshift)+(-\shadowradius/2,\shadowradius/2)$) rectangle ($(#1.north east)+(\shadowshift)+(\shadowradius/2,-\shadowradius/2)$);
-        \shade[bottom color=innercolor,top color=outercolor] ($(#1.north west)+(\shadowshift)+(\shadowradius/2,-\shadowradius/2)$) rectangle ($(#1.north east)+(\shadowshift)+(-\shadowradius/2,\shadowradius/2)$);
-        \shade[outercolor,right color=innercolor,left color=outercolor] ($(#1.south west)+(\shadowshift)+(-\shadowradius/2,\shadowradius/2)$) rectangle ($(#1.north west)+(\shadowshift)+(\shadowradius/2,-\shadowradius/2)$);
-        \filldraw ($(#1.south west)+(\shadowshift)+(\shadowradius/2,\shadowradius/2)$) rectangle ($(#1.north east)+(\shadowshift)-(\shadowradius/2,\shadowradius/2)$);
-    \end{pgfonlayer}
-}
-
-% create a shadow layer, so that we don't need to worry about overdrawing other things
-\pgfdeclarelayer{shadow} 
-\pgfsetlayers{shadow,main}
-
-\newsavebox\mybox
-\newlength\mylen
-
-\newcommand\shadowimage[2][]{%
-\setbox0=\hbox{\includegraphics[#1]{#2}}
-\setlength\mylen{\wd0}
-\ifnum\mylen<\ht0
-\setlength\mylen{\ht0}
-\fi
-\divide \mylen by 120
-\def\shadowshift{\mylen,-\mylen}
-\def\shadowradius{\the\dimexpr\mylen+\mylen+\mylen\relax}
-\begin{tikzpicture}
-\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[#1]{#2}};
-\drawshadow{image}
-\end{tikzpicture}}
-
-
-% ------------------------------------------------ %
-%                                                  %
-%               First page graphics                %
-%                                                  %
-% ------------------------------------------------ %
-
-%\usepackage[showframe,textwidth=3.0in]{geometry}
-\usepackage{xstring}% for string comparrison
-\usepackage{calc}%    for \widthof
-\usepackage{pgf}%     for math calclations
-
-% \newlength{\Size}
-% \newcommand*{\PositionText}[3][l]{%
-%     \IfStrEqCase{#1}{%
-%         {l}{\noindent\hspace{#2}#3}%
-%         {c}{\pgfmathsetlength{\Size}{#2-0.5*(\widthof{#3})}\noindent\hspace{\Size}#3}%
-%         {r}{\pgfmathsetlength{\Size}{#2-1.0*(\widthof{#3})}\noindent\hspace{\Size}#3}%
-%         }[\PackageError{PositionText}
-%             {\MessageBreak Unrecognized alignment: #1.\MessageBreak
-%             Valid alignments are are `l`, `c`, `r'}{}]%
-% }%
-
-
-% First page background graphics
-\usepackage{eso-pic}
-\newcommand\firstpagebackground{%
-\put(0,0){%
-\parbox[b][\paperheight]{\paperwidth}{%
-\vfill
-\centering
-\includegraphics[width=\paperwidth,height=\paperheight,%
-keepaspectratio]{bg_1st_page.pdf}%
-\vfill
-}}}
-%
-% Embedding
-\usepackage{pdfpages}
-
-% % ------------------------------------------------ %
-% %                                                  %
-% %               Absolute text positions            %
-% %                                                  %
-% % ------------------------------------------------ %
-%
-%
-% \usepackage[absolute]{textpos}
-%
-% \setlength{\TPHorizModule}{30mm}
-% \setlength{\TPVertModule}{\TPHorizModule}
-% \textblockorigin{10mm}{10mm} % start everything near the top-left corner
-% \setlength{\parindent}{0pt}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% Modifying the title
-
-\makeatletter
-\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
-\begin{flushleft}
-  \LARGE \@title
-  % \large \@author
-  % \newline
-  % \small \@date
-
-  % \textsc{\normalsize \@daffiliation }
-
-  % \hrulefill
-\end{flushleft}\egroup
-}
+% \rhead{\texttt{\Sexpr{Sys.time()}}}
 
 
 \begin{document}
+
 
 <<setup-basic, echo=FALSE, message=FALSE, warning=FALSE, results='hide'>>=
 opts_chunk$set(list(echo=FALSE,
@@ -405,10 +57,6 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 @
 
 
-% \includepdf{bg_1st_page.pdf}
-
-% \AddToShipoutPicture*{\firstpagebackground}
-
 % \thispagestyle{empty}
 
 \vspace{400 mm}
@@ -421,18 +69,10 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 \begin{multicols}{2}
 
-
-<<copy_flag, include = FALSE>>=
-mapname <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
-file.copy(paste0("~/faosync/fra/fra_countryprofiles/input/figures/flags/",mapname,".pdf"),
-          "~/faosync/fra/fra_countryprofiles/output/process/")
-@
-
-
 <<flag, results = "asis" , echo = FALSE>>=
 cat(paste0(
 '
-\\noindent\\shadowimage[width=2cm]{',mapname,'.pdf}
+\\noindent\\shadowimage[width=2cm]{',iso2c,'.pdf}
 '  
 ))
 @
@@ -465,6 +105,8 @@ cat(paste0(
 <<introtexts, results = "asis">>=
 @
 
+\subsection{Key indicators}
+
 \begin{wraptable}{l}{0.5\textwidth}
 <<cntrytable, eval = include_tables>>=
 @
@@ -474,10 +116,7 @@ cat(paste0(
 
 \section{Forest area and land use}
 
-<<line_forest_area, fig.width = small_width, fig.height = small_height, eval = include_plots, out.width=".7\\textwidth">>=
-@
-
-<<pie_land_use, fig.width = small_width, fig.height = small_height, eval = include_plots, out.width=".7\\textwidth">>=
+<<line_forest_area_pie_land_use, fig.width = small_width, fig.height = small_height, eval = include_plots, out.width=".48\\textwidth", fig.show = "hold", fig.align="center">>=
 @
 
 
@@ -485,35 +124,32 @@ cat(paste0(
 <<land_use_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.width= "\\textwidth">>=
 @
 
+\clearpage
 
 \section{Forest types}
 
-<<line_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+<<line_forest_type_pie_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots, out.width=".48\\textwidth", fig.show = "hold", fig.align="center">>=
 @
 
 
-<<pie_forest_type, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
+<<forest_type_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.width= "\\textwidth">>=
+@
+
+\clearpage
+
+\section{Fires, designation, ownership and carbon}
+
+<<line_forest_fires_line_forest_designation_trends, fig.width = small_width, fig.height = small_height, eval = include_plots, out.width=".48\\textwidth", fig.show = "hold", fig.align="center">>=
+@
+
+<<pie_ownership_line_carbon, fig.width = small_width, fig.height = small_height, eval = include_plots, out.width=".48\\textwidth", fig.show = "hold", fig.align="center">>=
 @
 
 
-<<forest_type_comparison, fig.width = small_width, fig.height = tall_height, eval = include_plots>>=
-@
+\clearpage
 
+\section{Production}
 
-\section{Another section here}
-
-<<line_forest_fires, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
-@
-
-<<line_forest_designation_trends, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
-@
-
-
-<<pie_ownership, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
-@
-
-<<line_carbon, fig.width = small_width, fig.height = small_height, eval = include_plots>>=
-@
 
 <<table_production, eval = include_tables>>=
 @

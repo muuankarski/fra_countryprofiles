@@ -43,7 +43,7 @@ worldmap + coord_map("ortho", orientation = c(mapcentr$LAT, mapcentr$LON, 0)) +
                                         lat = mean(lat)),
                             aes(label = cntryname, group = 1), nudge_x = 10, 
                             nudge_y = -10, fill = "#a25027", color = "white", family = "Roboto", fontface = "bold", size = 7) +
-  theme_ipsum_rc(grid = FALSE) +
+  theme_ipsum(grid = FALSE) +
   # scale_fill_manual(values = c("#a25027","#a9ccc4","#a9ccc4","#a9ccc4","#a9ccc4")) +
   theme(axis.text = element_blank(),
         axis.title = element_blank())
@@ -108,10 +108,10 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        title= "Forest area 1990-2015",
        subtitle="Perhaps we can add some vague definition of the indicator here...?",
        caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc()
+  theme_ipsum(base_size = 14)
 }
 
-## ---- pie_land_use
+# ## -- pie_land_use
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("F_area","OWL","OL"),
@@ -137,7 +137,7 @@ p <- p + labs(x = "Year",
      title= "Land use",
      subtitle="Share of total land area in 2015",
      caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc(grid = FALSE) + scale_fill_ipsum()
+  theme_ipsum(grid = FALSE, base_size = 14) + scale_fill_ipsum()
 p <- p + theme(axis.text = element_blank(),
                axis.title = element_blank(),
                axis.ticks = element_blank(),
@@ -165,7 +165,7 @@ pdat <- mdat %>%
 if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
-  theme_ipsum_rc() + 
+  theme_ipsum(base_size = 14) + 
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank()) +
   geom_label(data = pdat[!is.na(pdat$fill),],
@@ -180,7 +180,7 @@ ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) +
 }
 
 
-## ---- line_forest_type ----
+## ---- line_forest_type_pie_forest_type
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("F_prim", "F_onr", "F_pla")) %>% 
@@ -192,23 +192,18 @@ pdat <- mdat %>%
 if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, color=label, y=value, group = label)) + 
   geom_point() + geom_line() +
-  # labs
-  # geom_text(data = pdat %>% group_by(label) %>% 
-  #             filter(year == max(year)) %>% 
-  #             ungroup(),
-  #           aes(x = year, y = value, label = label), color = "black") +
   labs(x = "Year",
        y = "Forest Area (1000 ha)",
        title= "Trends in forest types 1990-2015",
        subtitle="Perhaps we can add some vague definition of the indicator here...?",
        caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc() + scale_color_ipsum() +
+  theme_ipsum(base_size = 14) + scale_color_ipsum() +
   theme(legend.position = "top",
         legend.title = element_blank())
 }
 
 
-## ---- pie_forest_type ----
+# # pie_forest_type ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("F_prim", "F_onr", "F_pla"),
@@ -238,7 +233,7 @@ p <- p + labs(x = "Year",
               title= "Forest types",
               subtitle="Share of forest area in 2015",
               caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc(grid = FALSE) + scale_fill_ipsum()
+  theme_ipsum(grid = FALSE, base_size = 14) + scale_fill_ipsum()
 p <- p + theme(axis.text = element_blank(),
                axis.title = element_blank(),
                axis.ticks = element_blank(),
@@ -267,7 +262,7 @@ pdat <- mdat %>%
 if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
-  theme_ipsum_rc() + 
+  theme_ipsum(base_size = 14) + 
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank()) +
   geom_label(data = pdat[!is.na(pdat$fill),],
@@ -281,7 +276,7 @@ ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) +
        caption = "Source: Cite the right data here!")
 }
 
-## ---- line_forest_fires ----
+## ---- line_forest_fires_line_forest_designation_trends
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% "Fires")
@@ -294,10 +289,10 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        title= "Forest area affected by fire (1000 ha)",
        subtitle="Perhaps we can add some vague definition of the indicator here...?",
        caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc()
+  theme_ipsum(base_size = 14)
 }
 
-## ---- line_forest_designation_trends ----
+# # line_forest_designation_trends ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("D_prod", "D_MU", "D_BD")) %>% 
@@ -309,22 +304,17 @@ pdat <- mdat %>%
 if (nrow(pdat) > 0){
 ggplot(data = pdat, aes(x=year, color=label, y=value, group = label)) + 
   geom_point() + geom_line() +
-  # labs
-  # geom_text(data = pdat %>% group_by(label) %>% 
-  #             filter(year == max(year)) %>% 
-  #             ungroup(),
-  #           aes(x = year, y = value, label = label), color = "black") +
   labs(x = "Year",
        y = "Forest Area (1000 ha)",
        title= "Forest designation trends 1990-2015",
        subtitle="Perhaps we can add some vague definition of the indicator here...?",
        caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc() + scale_color_ipsum() +
+  theme_ipsum(base_size = 14) + scale_color_ipsum() +
   theme(legend.position = "top",
         legend.title = element_blank())
 }
 
-## ---- pie_ownership ----
+## ---- pie_ownership_line_carbon
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("O_pub", "O_priv", "O_unk"),
@@ -354,7 +344,7 @@ p <- p + labs(x = "Year",
               title= "Forest ownership",
               subtitle="Share of forest area in 2010",
               caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc(grid = FALSE) + scale_fill_ipsum()
+  theme_ipsum(grid = FALSE, base_size = 14) + scale_fill_ipsum()
 p <- p + theme(axis.text = element_blank(),
                axis.title = element_blank(),
                axis.ticks = element_blank(),
@@ -363,7 +353,7 @@ p <- p + theme(axis.text = element_blank(),
 p
 }
 
-## ---- line_carbon ----
+# line_carbon ----
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% "C_FGB")
@@ -375,7 +365,7 @@ ggplot(data = pdat, aes(x=year, y=value)) +
        title= "Carbon in forest biomass",
        subtitle="million metric tonnes",
        caption = "Source: Cite the right data here!") +
-  theme_ipsum_rc()
+  theme_ipsum()
 }
 ## ---- table_production ----
 # colnames(faostat) <- c("Country", 
