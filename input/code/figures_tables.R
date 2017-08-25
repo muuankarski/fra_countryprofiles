@@ -27,23 +27,24 @@ readLines(paste0("../../input/data/intro_texts/",cntrycode,".txt")) %>%
 
 ## ---- map1 ----
 map.plot <- mapdata %>% 
-  mutate(fill = ifelse(id == cntrycode, "fill", NA))
+  mutate(fill = ifelse(id == cntrycode, "fill", "nofill"))
 
 mapcentr <- ccentroids %>% filter(ISO3 == cntrycode)
 
 worldmap <- ggplot(map.plot, aes(x = long, y = lat, group = group)) +
-  geom_polygon(aes(fill = fill), color = alpha(alpha = .5, colour = "white"), show.legend = FALSE)
+  geom_polygon(aes(fill = fill), color = alpha(alpha = .5, colour = "black"), show.legend = FALSE) +
+  scale_fill_manual(values = c("#5087ce","#c8c8c8"))
 worldmap + coord_map("ortho", orientation = c(mapcentr$LAT, mapcentr$LON, 0)) + 
   # labs(x="Fuel effiiency (mpg)", y="Weight (tons)",
   #      title= paste(cntryname, "is here!"),
   #      subtitle="Some dynamic content could be added here",
   #      caption = "Source: Cite the right data here!") +
-  ggrepel::geom_label_repel(data =   map.plot %>% filter(!is.na(fill)) %>% 
+  ggrepel::geom_label_repel(data =   map.plot %>% filter(fill == "fill") %>% 
                               summarise(long = mean(long),
                                         lat = mean(lat)),
                             aes(label = cntryname, group = 1), nudge_x = 10, 
-                            nudge_y = -10, fill = "#a25027", color = "white", family = "Roboto", fontface = "bold", size = 7) +
-  theme_ipsum(grid = FALSE) +
+                            nudge_y = -10, fill = "#5087ce", color = "white", family = "Roboto", size = 8) +
+  theme_ipsum(grid = TRUE) +
   # scale_fill_manual(values = c("#a25027","#a9ccc4","#a9ccc4","#a9ccc4","#a9ccc4")) +
   theme(axis.text = element_blank(),
         axis.title = element_blank())
@@ -160,19 +161,20 @@ pdat <- mdat %>%
   arrange(desc(share)) %>% 
   mutate(fill = ifelse(Country %in% cntrycode, 
          FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
-         NA))
+         "xofill"))
 
 if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
-  theme_ipsum(base_size = 14) + 
+  theme_ipsum(base_size = 14, grid = FALSE) + 
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank()) +
-  geom_label(data = pdat[!is.na(pdat$fill),],
+  geom_label(data = pdat[pdat$fill != "xofill",],
              aes(x=Country,y=share*1.3,
                  label = paste0(fill,"\n",round(share,1), " %")), 
-             show.legend = FALSE, 
+             show.legend = FALSE, family = "Roboto", size = 5,
              color = "white", lineheight = .8, alpha = .8) +
+    scale_fill_manual(values = c("#5087ce","#c8c8c8")) +
   labs(y = "share of total land use",
        title= "Share of forest area of total land use",
        subtitle="Ranking of all FAO member countries",
@@ -257,19 +259,20 @@ pdat <- mdat %>%
   arrange(desc(share)) %>% 
   mutate(fill = ifelse(Country %in% cntrycode, 
                        FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
-                       NA))
+                       "xofill"))
 
 if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
-  theme_ipsum(base_size = 14) + 
+  theme_ipsum(base_size = 14, grid = FALSE) + 
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank()) +
-  geom_label(data = pdat[!is.na(pdat$fill),],
+  geom_label(data = pdat[pdat$fill != "xofill",],
              aes(x=Country,y=share*1.3,
                  label = paste0(fill,"\n",round(share,1), " %")), 
-             show.legend = FALSE, 
+             show.legend = FALSE, family = "Roboto", size = 5, 
              color = "white", lineheight = .8, alpha = .8) +
+    scale_fill_manual(values = c("#5087ce","#c8c8c8")) +
   labs(y = "share of primary forests",
        title= "Share of primary forest area of total forests",
        subtitle="Ranking of all FAO member countries",

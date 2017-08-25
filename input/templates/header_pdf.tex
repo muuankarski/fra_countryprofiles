@@ -1,6 +1,3 @@
-\documentclass[a4paper]{article}
-% \documentclass[10pt]{scrartcl}
-
 % ------------------------------------------------ %
 %                                                  %
 %              Fonts and typography                %
@@ -26,8 +23,10 @@
 
 %% Fonts
 \setmainfont{Roboto}
-\setsansfont{Roboto}
-\setmonofont{Roboto}
+\setsansfont{Roboto Condensed}
+\setmonofont{Roboto Mono}
+
+\newfontfamily\RobotoBlack{Roboto Black}
 
 %% Sans serif as main font
 \renewcommand{\familydefault}{\sfdefault}
@@ -73,8 +72,6 @@
 
 % \input{preamb_a4.tex}
 
-%% Use full page in book style
-\usepackage[top=3.5cm, bottom=3.5cm, left=1.5cm, right=1.5cm]{geometry}
 
 %% Set line spacing
 \usepackage{setspace}
@@ -101,12 +98,11 @@
 \titlespacing*{\section}{0pt}{2.5ex}{0.5ex}
 \titlespacing*{\subsection}{0pt}{0.2ex}{0.2ex}
 
-%\definecolor{SkyBlue}{HTML}{3465A4}
 \definecolor{green}{RGB}{26,150,65}
 \definecolor{FAOBlue}{RGB}{80,135,206}
-
+% 
 \newcommand{\hsp}{\hspace{20pt}}
-% add the green vertical line after 1st level heading
+% % add the green vertical line after 1st level heading
 \titleformat{\section}[hang]{\large\bfseries}{\thesection\hsp\textcolor{FAOBlue}{|}\hsp}{0pt}{\large\bfseries}
 
 \usepackage{enumerate}
@@ -302,3 +298,5 @@
   % \hrulefill
 \end{flushleft}\egroup
 }
+
+

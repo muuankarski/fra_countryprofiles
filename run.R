@@ -11,7 +11,7 @@ all_in <- F
 
 
 # Which doctypes to process
-smartphone <- F
+smartphone <- T
 a4 <- T
 html <- F
 
@@ -147,7 +147,8 @@ file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf",
 # loop for smartphone begins
 if (smartphone){
 doctype <- "latex"
-if (debug) cntrycode="FIN"
+# if (debug) 
+  # cntrycode="FIN"
 for (cntrycode in cntrycodes){
 
 cntryname <- FAOcountryProfile %>% 
@@ -155,9 +156,24 @@ cntryname <- FAOcountryProfile %>%
   mutate(SHORT_NAME = gsub(" |ö|ä|å|", "", SHORT_NAME)) %>% 
   pull(SHORT_NAME)
 
+# Flag
+iso2c <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
+file.copy(paste0("~/faosync/fra/fra_countryprofiles/input/figures/flags/",iso2c,".pdf"),
+          "~/faosync/fra/fra_countryprofiles/output/process/")
+
 rnwfile <- "./output/process/smartphone.Rnw"
 if (file.exists(rnwfile)) file.remove(rnwfile)
 file.create(rnwfile)
+
+# \\documentclass[10pt]{scrartcl}
+cat('
+\\documentclass[a4]{article}
+\\usepackage[paperwidth=4.28in, paperheight=7.75in,top=15mm,bottom=20mm,left=5mm,right=5mm]{geometry}
+', file = rnwfile, append=TRUE)
+
+# Add common header
+readLines("~/faosync/fra/fra_countryprofiles/input/templates/header_pdf.tex") %>% 
+  cat(., sep = "\n", file = rnwfile, append = TRUE)
 
 # add content
 readLines("./input/templates/content_smartphone.Rnw") %>% 
@@ -176,8 +192,8 @@ for (plot in flist) {
   embed_fonts(plot)
 }
 
-system("pdflatex smartphone.tex")
-system("pdflatex smartphone.tex")
+system("xelatex smartphone.tex")
+system("xelatex smartphone.tex")
 setwd("~/faosync/fra/fra_countryprofiles/")
 # Copy the final pdf into the output/smartphone folder
 file.copy(from = "./output/process/smartphone.pdf", 
@@ -201,20 +217,19 @@ unlink("./output/process/figure", recursive = TRUE, force = TRUE)
 file.remove(list.files("./output/process/", full.names = TRUE))
 file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf", 
           to = "./output/process/")
-file.copy("./input/figures/bg_1st_page.pdf", 
-          to = "./output/process/")
+
 
 # if (a4){
 doctype <- "latex"
 # for (cntrycode in cntrycodes){
   
-  cntrycode <- "FIN" # debug with Finland
+  # cntrycode <- "FIN" # debug with Finland
   
   cntryname <- FAOcountryProfile %>% 
     filter(ISO3_CODE == cntrycode) %>% 
     mutate(SHORT_NAME = gsub(" |ö|ä|å|", "", SHORT_NAME)) %>% 
     pull(SHORT_NAME)
-  
+  # Flag
   iso2c <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
   file.copy(paste0("~/faosync/fra/fra_countryprofiles/input/figures/flags/",iso2c,".pdf"),
             "~/faosync/fra/fra_countryprofiles/output/process/")
@@ -223,8 +238,15 @@ doctype <- "latex"
   if (file.exists(rnwfile)) file.remove(rnwfile)
   file.create(rnwfile)
   
+  cat('
+\\documentclass[10pt]{scrartcl}
+%% Use full page in book style
+\\usepackage[top=1.5cm, bottom=3.5cm, left=1.5cm, right=1.5cm]{geometry}
+', file = rnwfile, append=TRUE)
+  
+  
   # add header
-  readLines("~/faosync/fra/fra_countryprofiles/input/templates/header_a4.tex") %>% 
+  readLines("~/faosync/fra/fra_countryprofiles/input/templates/header_pdf.tex") %>% 
     cat(., sep = "\n", file = rnwfile, append = TRUE)
   
   # add content

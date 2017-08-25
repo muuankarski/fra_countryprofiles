@@ -14,11 +14,11 @@
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}}
 
-\setlength\headheight{36pt}
+\setlength\headheight{40pt}
 \lhead{\Large{Global Forest Resources Assessments (FRA) Country profile}}
 
 <<header_flag, echo = FALSE, results = "asis">>=
-cat(paste0('\\rhead{\\Large{',cntrycode,'}\\shadowimage[width=.6cm]{',iso2c,'.pdf}}'))
+cat(paste0('\\rhead{\\Large{',cntryname,'}\\shadowimage[width=.6cm]{',iso2c,'.pdf}}'))
 @
 
 % \rhead{\texttt{\Sexpr{Sys.time()}}}
@@ -59,7 +59,7 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 
 % \thispagestyle{empty}
 
-\vspace{400 mm}
+% \vspace{400 mm}
 
 % \title{$title$}
 % \author{$for(author)$$author.name$$sep$, $endfor$}
