@@ -11,7 +11,7 @@ all_in <- F
 
 
 # Which doctypes to process
-smartphone <- T
+smartphone <- F
 a4 <- T
 html <- F
 
@@ -219,9 +219,9 @@ file.copy("./input/figures/FAO_logo_Black_2lines_en.pdf",
           to = "./output/process/")
 
 
-# if (a4){
+if (a4){
 doctype <- "latex"
-# for (cntrycode in cntrycodes){
+for (cntrycode in cntrycodes){
   
   # cntrycode <- "FIN" # debug with Finland
   
@@ -274,8 +274,8 @@ doctype <- "latex"
             to = paste0("./output/final_a4/a4_", cntrycode,".pdf"), 
             overwrite = TRUE)
   
-# } # loop for a4 ends
-# }
+} # loop for a4 ends
+}
 
 
 
