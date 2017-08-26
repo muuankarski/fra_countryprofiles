@@ -30,7 +30,7 @@ Only showing the countries that are currently tested with..
 
 | Country | smartphone | A4 | html |
 | ------  | --------   | --- | ---- |
-```{r, echo=FALSE, results='asis'}
+```{r tbl, echo=FALSE, results='asis'}
 # let create a table with rows for each county found in intro texts
 codes_in_introtexts <- gsub("\\.txt$", "", list.files("~/faosync/fra/fra_countryprofiles/input/data/intro_texts/", ".txt"))
 codes_in_introtexts <- codes_in_introtexts[codes_in_introtexts != "2"]

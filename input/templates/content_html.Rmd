@@ -32,65 +32,55 @@ knitr::read_chunk("../../input/code/figures_tables.R")
 ```
 
 
-```{r, introtexts, results = "asis"}
+# Introduction
+
+```{r,introtexts, results = "asis"}
+```
+
+## Key indicators
+
+```{r,cntrytable, eval = include_tables}
 ```
 
 
-```{r, map1, fig.height = 9, eval = include_plots}
-```
-
-
-```{r, cntrytable}
-```
-
-
+****
 
 # Forest area and land use
 
-```{r, line_forest_area, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```{r,line_forest_area_pie_land_use, fig.height = small_height, eval = include_plots, out.height=".75\\textwidth", fig.show = "hold", fig.align="center"}
 ```
 
 
-```{r, pie_land_use, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```{r,land_use_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.height= "\\textwidth",  out.width= "\\textheight", out.extra='angle=90'}
 ```
 
-
-```{r, land_use_comparison, fig.width = tall_height, fig.height = html_width, eval = include_plots, out.extra='angle=90', out.width= "180%"}
-```
-
-
+****
 
 # Forest types
 
-```{r, line_forest_type, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```{r,line_forest_type_pie_forest_type, fig.height = small_height, eval = include_plots, out.height=".75\\textwidth", fig.show = "hold", fig.align="center"}
 ```
 
 
-```{r, pie_forest_type, fig.width = html_width, fig.height = html_height, eval = include_plots}
+```{r,forest_type_comparison, fig.width = tall_height, fig.height = small_width, eval = include_plots, out.height= "\\textwidth",  out.width= "\\textheight", out.extra='angle=90'}
+```
+
+****
+
+# Fires, designation, ownership and carbon
+
+```{r,line_forest_fires_line_forest_designation_trends, fig.height = small_height, eval = include_plots, out.height=".75\\textwidth", fig.show = "hold", fig.align="center"}
+```
+
+****
+
+```{r,pie_ownership_line_carbon, fig.height = small_height, eval = include_plots, out.height=".75\\textwidth", fig.show = "hold", fig.align="center"}
 ```
 
 
-```{r, forest_type_comparison, fig.width = tall_height, fig.height = html_width, eval = include_plots}
+****
+
+# Production
+
+```{r,table_production, eval = include_tables}
 ```
-
-
-# Another section here
-
-```{r, line_forest_fires, fig.width = html_width, fig.height = html_height, eval = include_plots}
-```
-
-```{r, line_forest_designation_trends, fig.width = html_width, fig.height = html_height, eval = include_plots}
-```
-
-
-```{r, pie_ownership, fig.width = html_width, fig.height = html_height, eval = include_plots}
-```
-
-```{r, line_carbon, fig.width = html_width, fig.height = html_height, eval = include_plots}
-```
-
-```{r, table_production}
-```
-
-
-

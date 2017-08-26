@@ -7,13 +7,13 @@ library(xtable)
 
 upload <- T
 debug <- F
-all_in <- F
+all_in <- T
 
 
 # Which doctypes to process
 smartphone <- F
-a4 <- T
-html <- F
+a4 <- F
+html <- T
 
 # set debug countrycodes
 cntrycodes <- c("FIN",
@@ -150,6 +150,9 @@ doctype <- "latex"
 # if (debug) 
   # cntrycode="FIN"
 for (cntrycode in cntrycodes){
+  
+  # Lets check if it is produced already
+  if (file.exists(paste0("./output/final_smartphone/smartphone_",cntrycode,".pdf"))) next()
 
 cntryname <- FAOcountryProfile %>% 
   filter(ISO3_CODE == cntrycode) %>% 
@@ -158,6 +161,7 @@ cntryname <- FAOcountryProfile %>%
 
 # Flag
 iso2c <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
+if (is.na(iso2c)) next() # if there is no valid iso2c code
 file.copy(paste0("~/faosync/fra/fra_countryprofiles/input/figures/flags/",iso2c,".pdf"),
           "~/faosync/fra/fra_countryprofiles/output/process/")
 
@@ -225,12 +229,16 @@ for (cntrycode in cntrycodes){
   
   # cntrycode <- "FIN" # debug with Finland
   
+  # Lets check if it is produced already
+  if (file.exists(paste0("./output/final_a4/a4_",cntrycode,".pdf"))) next()
+  
   cntryname <- FAOcountryProfile %>% 
     filter(ISO3_CODE == cntrycode) %>% 
     mutate(SHORT_NAME = gsub(" |ö|ä|å|", "", SHORT_NAME)) %>% 
     pull(SHORT_NAME)
   # Flag
   iso2c <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
+  if (is.na(iso2c)) next() # if there is no valid iso2c code
   file.copy(paste0("~/faosync/fra/fra_countryprofiles/input/figures/flags/",iso2c,".pdf"),
             "~/faosync/fra/fra_countryprofiles/output/process/")
   
@@ -291,10 +299,16 @@ for (cntrycode in cntrycodes){
 unlink("./output/process/", recursive = TRUE, force = TRUE)
 dir.create("./output/process/", recursive = TRUE, showWarnings = FALSE)
 
+jpgflags <- list.files("~/faosync/fra/fra_countryprofiles/input/figures/flags/", pattern = ".jpg", full.names = TRUE)
+dir.create("~/faosync/fra/fra_countryprofiles/output/final_html/jpgflags", recursive = TRUE, showWarnings = FALSE)
+file.copy(from = jpgflags, to = "~/faosync/fra/fra_countryprofiles/output/final_html/jpgflags/", overwrite = FALSE)
 
 if (html){
 doctype <- "html"
 for (cntrycode in cntrycodes){
+  
+  # Lets check if it is produced already
+  if (file.exists(paste0("./output/final_html/html_",cntrycode,".html"))) next()
   
   # cntrycode <- "FIN" # debug with Finland
   setwd("~/faosync/fra/fra_countryprofiles/")
@@ -302,7 +316,11 @@ for (cntrycode in cntrycodes){
     filter(ISO3_CODE == cntrycode) %>% 
     mutate(SHORT_NAME = gsub(" |ö|ä|å|", "", SHORT_NAME)) %>% 
     pull(SHORT_NAME)
+  # Flag
+  iso2c <- FAOcountryProfile %>% filter(ISO3_CODE == cntrycode) %>% pull(ISO2_CODE) %>% tolower()
   
+  if (is.na(iso2c)) next() # if there is no valid iso2c code
+
   rnwfile <- "./output/process/html.Rmd"
   if (file.exists(rnwfile)) file.remove(rnwfile)
   file.create(rnwfile)
@@ -320,6 +338,9 @@ output:
     number_sections: yes
     theme: yeti
 ---
+
+<img src="./jpgflags/',iso2c,'.jpg" alt="Smiley face" width="150" align="right" style="box-shadow: 2px 2px 2px #888888;">
+
 '), file = rnwfile)
 
   
@@ -364,5 +385,5 @@ cat("Options +Indexes", file = "./output/final_a4/.htaccess")
 cat("Options +Indexes", file = "./output/final_html/.htaccess")
 cat("Options +Indexes", file = "./output/final_smartphone/.htaccess")
 
-if (upload) source("./input/code/run_comparisons.R")
+if (upload) source("~/faosync/fra/fra_countryprofiles/input/code/run_comparisons.R")
 

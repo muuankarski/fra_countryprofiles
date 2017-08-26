@@ -31,23 +31,26 @@ map.plot <- mapdata %>%
 
 mapcentr <- ccentroids %>% filter(ISO3 == cntrycode)
 
-worldmap <- ggplot(map.plot, aes(x = long, y = lat, group = group)) +
-  geom_polygon(aes(fill = fill), color = alpha(alpha = .5, colour = "black"), show.legend = FALSE) +
-  scale_fill_manual(values = c("#5087ce","#c8c8c8"))
-worldmap + coord_map("ortho", orientation = c(mapcentr$LAT, mapcentr$LON, 0)) + 
-  # labs(x="Fuel effiiency (mpg)", y="Weight (tons)",
-  #      title= paste(cntryname, "is here!"),
-  #      subtitle="Some dynamic content could be added here",
-  #      caption = "Source: Cite the right data here!") +
-  ggrepel::geom_label_repel(data =   map.plot %>% filter(fill == "fill") %>% 
-                              summarise(long = mean(long),
-                                        lat = mean(lat)),
-                            aes(label = cntryname, group = 1), nudge_x = 10, 
-                            nudge_y = -10, fill = "#5087ce", color = "white", family = "Roboto", size = 8) +
-  theme_ipsum(grid = TRUE) +
-  # scale_fill_manual(values = c("#a25027","#a9ccc4","#a9ccc4","#a9ccc4","#a9ccc4")) +
-  theme(axis.text = element_blank(),
-        axis.title = element_blank())
+if (nrow(mapcentr) > 0){
+  worldmap <- ggplot(map.plot, aes(x = long, y = lat, group = group)) +
+    geom_polygon(aes(fill = fill), color = alpha(alpha = .5, colour = "black"), show.legend = FALSE) +
+    scale_fill_manual(values = c("#5087ce","#c8c8c8"))
+  worldmap + coord_map("ortho", orientation = c(mapcentr$LAT, mapcentr$LON, 0)) + 
+    # labs(x="Fuel effiiency (mpg)", y="Weight (tons)",
+    #      title= paste(cntryname, "is here!"),
+    #      subtitle="Some dynamic content could be added here",
+    #      caption = "Source: Cite the right data here!") +
+    ggrepel::geom_label_repel(data =   map.plot %>% filter(fill == "fill") %>% 
+                                summarise(long = mean(long),
+                                          lat = mean(lat)),
+                              aes(label = cntryname, group = 1), nudge_x = 10, 
+                              nudge_y = -10, fill = "#5087ce", color = "white", family = "Roboto", size = 8) +
+    theme_ipsum(grid = TRUE) +
+    # scale_fill_manual(values = c("#a25027","#a9ccc4","#a9ccc4","#a9ccc4","#a9ccc4")) +
+    theme(axis.text = element_blank(),
+          axis.title = element_blank())
+}
+
 
 ## ---- cntrytable
 # colnames(forstat) <- c("Country", 
@@ -84,12 +87,7 @@ if (nrow(cforstat) > 0){
     ) 
     } else {
       # html-table
-      print.xtable(xtable(cforstat),
-                   type = "html", 
-                   include.rownames = FALSE, 
-                   include.colnames = FALSE,
-                   timestamp=NULL
-      )
+      knitr::kable(cforstat)
     }
 
 
@@ -116,13 +114,16 @@ ggplot(data = pdat, aes(x=year, y=value)) +
 pdat <- mdat %>% 
   filter(Country == cntrycode, 
          variable %in% c("F_area","OWL","OL"),
-         year == 2015) %>% 
-  mutate(label = c("Forest", "Other wooded land", "Other land"),
-         share = round(value / sum(value) * 100, 1),
-         sharesum = sum(share)) %>% 
-  arrange(share)
+         year == 2015) 
 
-pdat$label <- factor(pdat$label, levels = pdat$label)
+if (nrow(pdat) > 0){
+  pdat <- pdat %>% 
+    mutate(label = c("Forest", "Other wooded land", "Other land"),
+           share = round(value / sum(value) * 100, 1),
+           sharesum = sum(share)) %>% 
+    arrange(share)
+  pdat$label <- factor(pdat$label, levels = pdat$label)
+}
 
 if (nrow(pdat) > 0){
 p <- ggplot(pdat, aes(x=sharesum/2, y = share, fill = label, width = sharesum, ymax=1))
@@ -163,7 +164,7 @@ pdat <- mdat %>%
          FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
          "xofill"))
 
-if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
+if (nrow(pdat) > 0 & any(pdat$fill != "xofill")){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
   theme_ipsum(base_size = 14, grid = FALSE) + 
@@ -261,7 +262,7 @@ pdat <- mdat %>%
                        FAOcountryProfile %>% filter(ISO3_CODE %in% cntrycode) %>% pull(SHORT_NAME),
                        "xofill"))
 
-if (nrow(pdat) > 0 & any(!is.na(pdat$fill))){
+if (nrow(pdat) > 0 & any(pdat$fill != "xofill")){
 ggplot(pdat, aes(x=reorder(Country, share),y=share,fill=fill)) + 
   geom_col(show.legend = FALSE) +
   theme_ipsum(base_size = 14, grid = FALSE) + 
@@ -395,12 +396,8 @@ if (nrow(cfaostat) > 0){
     ) 
     } else {
       # html-table
-      print.xtable(xtable(cfaostat),
-                   type = "html", 
-                   include.rownames = FALSE, 
-                   include.colnames = FALSE,
-                   timestamp=NULL
-      )
+      knitr::kable(cfaostat)
     }
 
 }
+
